@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Thank You! - ADNC Luxury Skincare</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;600;700&family=Trajan+Pro:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  
+  <!-- Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --primary: #c6a769;
+      --text: #3e2f25;
+      --bg-light: #f8f5f0;
+      --gradient-start: #e8dfd8;
+      --gradient-end: #f8f5f0;
+      --radius: 16px;
+      --transition: all 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-light);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    .container { width: 90%; max-width: 1320px; margin: 0 auto; padding: 0 80px; }
+
+    /* Announcement + Header + Mobile Menu (exact same) */
+    .announcement {
+      height: 40px;
+      background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end), var(--gradient-start));
+      color: #3e2f25;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      animation: shimmer 8s infinite linear;
+    }
+    @keyframes shimmer { 0% {background-position:-200% 0} 100% {background-position:200% 0} }
+
+    .site-header {
+      height: 85px;
+      background: rgba(248,245,240,0.92);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 40px;
+      z-index: 999;
+      transition: background 0.4s ease, box-shadow 0.4s ease;
+    }
+    .site-header.scrolled { background: rgba(255,255,255,0.92); box-shadow: 0 4px 20px rgba(62,47,37,0.1); }
+    .nav-flex { height: 100%; display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-family: 'Trajan Pro', serif; font-size: 48px; letter-spacing: 4px; font-weight: 600; color: #3e2f25; text-decoration: none; }
+    .logo:hover { color: #c6a769; transform: scale(1.04); }
+    .menu { list-style: none; display: flex; gap: 50px; }
+    .menu a { color: #3e2f25; font-size: 17px; letter-spacing: 1px; font-weight: 500; position: relative; }
+    .menu a::after { content:''; position:absolute; width:0; height:2px; bottom:-6px; left:50%; background:#c6a769; transition:0.3s; }
+    .menu a:hover::after, .menu a.active::after { width:100%; left:0; }
+    .menu a:hover, .menu a.active { color:#c6a769; }
+    .icons { display:flex; gap:30px; }
+    .icons i { color:#3e2f25; font-size:22px; cursor:pointer; transition:0.3s; }
+    .icons i:hover { color:#c6a769; transform:scale(1.15); }
+
+    .hamburger { display:none; flex-direction:column; gap:6px; cursor:pointer; }
+    .hamburger span { width:30px; height:3px; background:var(--text); }
+
+    .mobile-menu {
+      position: fixed; top: 0; right: -100%; width: 85%; max-width: 360px; height: 100%;
+      background: white; box-shadow: -20px 0 60px rgba(0,0,0,0.25);
+      transition: right 0.5s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1000; padding: 100px 40px 40px;
+    }
+    .mobile-menu.active { right: 0; }
+
+    /* Thank You Page */
+    .thank-you-main {
+      padding: 160px 0 100px;
+      text-align: center;
+      min-height: 80vh;
+    }
+
+    .success-icon {
+      font-size: 7rem;
+      margin-bottom: 20px;
+      animation: bounce 1.8s infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-25px); }
+    }
+
+    .order-box {
+      background: white;
+      max-width: 620px;
+      margin: 40px auto;
+      padding: 48px 40px;
+      border-radius: 24px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+    }
+
+    .btn {
+      background: #c6a769;
+      color: white;
+      padding: 18px 48px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+      display: inline-block;
+      margin: 12px;
+    }
+    .btn:hover { background: #b38f4f; transform: translateY(-3px); }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid #c6a769;
+      color: #c6a769;
+    }
+
+    /* Footer (exact same) */
+    .site-footer {
+      background: #2a1a19;
+      color: white;
+      padding: 100px 0 60px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 60px;
+    }
+    .footer-grid h3 { font-family: 'Playfair Display', serif; font-size: 2.4rem; margin-bottom: 20px; }
+    .footer-grid h4 { font-size: 1.4rem; margin-bottom: 20px; }
+    .footer-grid a { color: #ddd; text-decoration: none; line-height: 2.4; display: block; }
+    .footer-grid a:hover { color: white; }
+    .social-icons { display: flex; gap: 24px; font-size: 1.8rem; }
+    .footer-bottom {
+      margin-top: 80px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(255,255,255,0.12);
+      text-align: center;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 992px) {
+      .menu { display: none; }
+      .hamburger { display: flex; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="announcement">
+    Extra 10% Discount on UPI Payment • Use Code <strong>UPI10</strong>
+  </div>
+
+  <header class="site-header">
+    <div class="container nav-flex">
+      <a href="index.html" class="logo">ADNC</a>
+      <ul class="menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="about-us.html">About Us</a></li>
+        <li><a href="collections.html">Collections</a></li>
+      </ul>
+      <div class="icons">
+        <a href="login.html"><i class="fas fa-user"></i></a>
+        <a href="cart.html" class="cart-icon">
+          <i class="fas fa-shopping-bag"></i>
+          <span class="cart-count">0</span>
+        </a>
+      </div>
+      <button class="hamburger">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="close-menu">×</button>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="about-us.html">About Us</a></li>
+      <li><a href="collections.html">Collections</a></li>
+      <li><a href="login.html">Account</a></li>
+      <li><a href="cart.html">Cart</a></li>
+    </ul>
+  </div>
+
+  <main class="thank-you-main container">
+    <div data-aos="fade-down">
+      <div class="success-icon">🎉</div>
+      <h1 style="font-family: 'Playfair Display', serif; font-size: 3.6rem; margin-bottom: 12px;">Thank You!</h1>
+      <p style="font-size: 1.35rem; color: #555; max-width: 680px; margin: 0 auto 40px;">
+        Your royal glow journey has begun.<br>
+        We’re preparing your order with love and care.
+      </p>
+    </div>
+
+    <div class="order-box" data-aos="fade-up" data-aos-delay="200">
+      <h2 style="margin-bottom: 28px;">Order Details</h2>
+      
+      <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+        <span>Order Number:</span>
+        <strong id="orderNumber">#ADNC-XXXXXX</strong>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+        <span>Order Date:</span>
+        <strong id="orderDate"></strong>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; margin-bottom: 24px;">
+        <span>Estimated Delivery:</span>
+        <strong>7–10 working days</strong>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; font-size: 1.5rem; font-weight: 700; padding-top: 20px; border-top: 2px solid #eee;">
+        <span>Total Paid:</span>
+        <span style="color: #c6a769;" id="totalPaid">₹16,518</span>
+      </div>
+
+      <div style="margin-top: 32px;">
+        <a href="index.html" class="btn">Continue Shopping</a>
+        <a href="#" onclick="alert('Track order feature coming soon!')" class="btn btn-outline">Track Your Order</a>
+      </div>
+    </div>
+
+    <div data-aos="fade-up" data-aos-delay="400" style="max-width: 620px; margin: 60px auto 0; background: white; padding: 40px; border-radius: 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.06);">
+      <h3>Join the Royal Circle</h3>
+      <p style="margin: 16px 0 24px;">Get exclusive early access to new launches and private rituals.</p>
+      <form style="display: flex; gap: 12px;">
+        <input type="email" placeholder="Your royal email address" style="flex:1; padding: 16px; border: 1px solid #ddd; border-radius: 12px;">
+        <button type="submit" class="btn">Subscribe</button>
+      </form>
+    </div>
+  </main>
+
+  <!-- Exact same footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>ADNC</h3>
+          <p>Premium Middle Eastern-Inspired Luxury Skincare</p>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4>Shop</h4>
+          <ul>
+            <li><a href="shop.html">Night Creams</a></li>
+            <li><a href="shop.html">Serums</a></li>
+            <li><a href="shop.html">Cleansers</a></li>
+            <li><a href="shop.html">Eye Care</a></li>
+            <li><a href="shop.html">Sunscreen</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">Track Order</a></li>
+            <li><a href="#">Shipping & Returns</a></li>
+            <li><a href="#">FAQs</a></li>
+            <li><a href="#">Contact Us</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Newsletter</h4>
+          <p>Stay updated with exclusive offers & new launches</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 ADNC Skincare. All Rights Reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 1000, once: true });
+
+    // Mobile Menu
+    document.querySelector('.hamburger').addEventListener('click', () => {
+      document.getElementById('mobileMenu').classList.toggle('active');
+    });
+    document.querySelector('.close-menu').addEventListener('click', () => {
+      document.getElementById('mobileMenu').classList.remove('active');
+    });
+
+    // Navbar scroll
+    window.addEventListener('scroll', () => {
+      document.querySelector('.site-header').classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // Confetti + Order Details
+    window.onload = () => {
+      confetti({
+        particleCount: 180,
+        spread: 80,
+        origin: { y: 0.6 },
+        colors: ['#c6a769', '#3e2f25', '#ffffff']
+      });
+
+      document.getElementById('orderNumber').textContent = '#ADNC-' + Math.floor(100000 + Math.random() * 900000);
+
+      const today = new Date();
+      document.getElementById('orderDate').textContent = today.toLocaleDateString('en-IN', {
+        day: 'numeric', month: 'long', year: 'numeric'
+      });
+    };
+  </script>
+</body>
+</html>

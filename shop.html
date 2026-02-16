@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shop - ADNC Luxury Skincare</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;600;700&family=Trajan+Pro:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  
+  <!-- AOS -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #c6a769;
+      --text: #3e2f25;
+      --bg-light: #f8f5f0;
+      --gradient-start: #e8dfd8;
+      --gradient-end: #f8f5f0;
+      --radius: 16px;
+      --transition: all 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-light);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    .container { width: 90%; max-width: 1320px; margin: 0 auto; padding: 0 80px; }
+
+    /* Announcement & Header (exact same as index.html) */
+    .announcement {
+      height: 40px;
+      background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end), var(--gradient-start));
+      color: #3e2f25;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      animation: shimmer 8s infinite linear;
+    }
+    @keyframes shimmer { 0% {background-position:-200% 0} 100% {background-position:200% 0} }
+
+    .site-header {
+      height: 85px;
+      background: rgba(248,245,240,0.92);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 40px;
+      z-index: 999;
+      transition: background 0.4s ease, box-shadow 0.4s ease;
+    }
+    .site-header.scrolled {
+      background: rgba(255,255,255,0.92);
+      box-shadow: 0 4px 20px rgba(62,47,37,0.1);
+    }
+    .nav-flex { height: 100%; display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-family: 'Trajan Pro', serif; font-size: 48px; letter-spacing: 4px; font-weight: 600; color: #3e2f25; text-decoration: none; }
+    .logo:hover { color: #c6a769; transform: scale(1.04); }
+    .menu { list-style: none; display: flex; gap: 50px; }
+    .menu a { color: #3e2f25; font-size: 17px; letter-spacing: 1px; font-weight: 500; position: relative; }
+    .menu a::after { content:''; position:absolute; width:0; height:2px; bottom:-6px; left:50%; background:#c6a769; transition:0.3s; }
+    .menu a:hover::after, .menu a.active::after { width:100%; left:0; }
+    .menu a:hover, .menu a.active { color:#c6a769; }
+    .icons { display:flex; gap:30px; }
+    .icons i { color:#3e2f25; font-size:22px; cursor:pointer; transition:0.3s; }
+    .icons i:hover { color:#c6a769; transform:scale(1.15); }
+    .cart-count { position:absolute; top:-10px; right:-12px; background:#c6a769; color:white; font-size:11px; width:16px; height:16px; border-radius:50%; display:flex; align-items:center; justify-content:center; }
+
+    .hamburger { display:none; flex-direction:column; gap:6px; cursor:pointer; }
+    .hamburger span { width:30px; height:3px; background:var(--text); }
+
+    /* SHOP PAGE LAYOUT */
+    .shop-container {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 60px;
+      padding: 120px 0;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      background: white;
+      padding: 40px 30px;
+      border-radius: 24px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+      height: fit-content;
+      position: sticky;
+      top: 140px;
+    }
+
+    .sidebar h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+      color: #3e2f25;
+    }
+
+    .category-list {
+      list-style: none;
+    }
+    .category-list li {
+      padding: 12px 0;
+      border-bottom: 1px solid #eee;
+      font-size: 1.05rem;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .category-list li:hover { color: #c6a769; padding-left: 8px; }
+
+    .price-range {
+      margin: 30px 0;
+    }
+    .price-range input[type="range"] {
+      width: 100%;
+      accent-color: #c6a769;
+    }
+
+    .skin-concern {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .tag {
+      background: #f8f5f0;
+      padding: 8px 18px;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .tag:hover, .tag.active {
+      background: #c6a769;
+      color: white;
+    }
+
+    /* Main Shop Area */
+    .shop-main h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.2rem;
+      margin-bottom: 8px;
+    }
+    .shop-main p {
+      font-size: 1.2rem;
+      color: #666;
+      margin-bottom: 30px;
+    }
+
+    .shop-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+
+    .sort-select {
+      padding: 12px 20px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      background: white;
+      font-size: 1rem;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 40px;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+      transition: 0.45s;
+    }
+    .product-card:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 30px 70px rgba(198,167,105,0.2);
+    }
+
+    .product-image {
+      width: 100%;
+      height: 380px;
+      object-fit: cover;
+    }
+
+    .product-info {
+      padding: 24px;
+      text-align: center;
+    }
+    .product-info h3 {
+      font-size: 1.35rem;
+      margin-bottom: 8px;
+    }
+    .product-price {
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: #c6a769;
+    }
+    .rating {
+      color: #c6a769;
+      font-size: 1.2rem;
+      margin: 8px 0;
+    }
+
+    /* Footer (exact same as index.html) */
+    .site-footer {
+      background: #2a1a19;
+      color: white;
+      padding: 100px 0 60px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 60px;
+    }
+    .footer-grid h3 { font-family: 'Playfair Display', serif; font-size: 2.4rem; margin-bottom: 20px; }
+    .footer-grid h4 { font-size: 1.4rem; margin-bottom: 20px; }
+    .footer-grid a { color: #ddd; text-decoration: none; line-height: 2.4; display: block; }
+    .footer-grid a:hover { color: white; }
+    .social-icons { display: flex; gap: 24px; font-size: 1.8rem; }
+    .footer-bottom {
+      margin-top: 80px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(255,255,255,0.12);
+      text-align: center;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 992px) {
+      .shop-container { grid-template-columns: 1fr; }
+      .sidebar { position: static; }
+      .menu { display: none; }
+      .hamburger { display: flex; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="announcement">
+    Extra 10% Discount on UPI Payment • Use Code <strong>UPI10</strong>
+  </div>
+
+  <header class="site-header">
+    <div class="container nav-flex">
+      <a href="index.html" class="logo">ADNC</a>
+      <ul class="menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html" class="active">Shop</a></li>
+        <li><a href="about-us.html">About Us</a></li>
+        <li><a href="collections.html">Collections</a></li>
+      </ul>
+      <div class="icons">
+        <a href="login.html"><i class="fas fa-user"></i></a>
+        <a href="cart.html" class="cart-icon">
+          <i class="fas fa-shopping-bag"></i>
+          <span class="cart-count">0</span>
+        </a>
+      </div>
+      <button class="hamburger">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="close-menu">×</button>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="about-us.html">About Us</a></li>
+      <li><a href="collections.html">Collections</a></li>
+      <li><a href="login.html">Account</a></li>
+      <li><a href="cart.html">Cart</a></li>
+    </ul>
+  </div>
+
+  <main>
+    <div class="shop-container container">
+      <!-- Sidebar -->
+      <aside class="sidebar" data-aos="fade-right">
+        <h4>Categories</h4>
+        <ul class="category-list">
+          <li>All Products (12)</li>
+          <li>Night Creams (4)</li>
+          <li>Serums (3)</li>
+          <li>Cleansers (2)</li>
+          <li>Eye Care (2)</li>
+          <li>Sunscreen (1)</li>
+        </ul>
+
+        <h4 style="margin-top:40px;">Price Range</h4>
+        <div class="price-range">
+          <input type="range" min="0" max="20000" value="12000" style="width:100%;">
+          <div style="display:flex; justify-content:space-between; font-size:0.95rem; margin-top:8px;">
+            <span>₹0</span>
+            <span>₹20,000+</span>
+          </div>
+        </div>
+
+        <h4 style="margin-top:40px;">Skin Concern</h4>
+        <div class="skin-concern">
+          <div class="tag active">Anti-Aging</div>
+          <div class="tag">Hydration</div>
+          <div class="tag">Brightening</div>
+          <div class="tag">Acne</div>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <div class="shop-main">
+        <h1 data-aos="fade-up">Our Essentials</h1>
+        <p data-aos="fade-up" data-aos-delay="100">Science-backed formulas designed for your skin’s unique needs.</p>
+
+        <div class="shop-header">
+          <div>Showing 12 Products</div>
+          <select class="sort-select">
+            <option>Newest</option>
+            <option>Price: Low to High</option>
+            <option>Price: High to Low</option>
+            <option>Best Rated</option>
+          </select>
+        </div>
+
+        <div class="products-grid">
+          <!-- Product Cards (same style as homepage) -->
+          <div class="product-card" data-aos="fade-up">
+            <img src="assets/uploads/products/product-nightcream.jpg" alt="Night Cream" class="product-image">
+            <div class="product-info">
+              <h3>ADNC Dubai Night Cream</h3>
+              <div class="rating">★★★★★ (128)</div>
+              <p class="product-price">₹8,999</p>
+              <button class="btn" style="margin-top:12px; width:100%; background:#c6a769; color:white;">Add to Cart</button>
+            </div>
+          </div>
+
+          <div class="product-card" data-aos="fade-up" data-aos-delay="100">
+            <img src="assets/uploads/products/product-serum.jpg" alt="Face Serum" class="product-image">
+            <div class="product-info">
+              <h3>ADNC Face Serum</h3>
+              <div class="rating">★★★★★ (156)</div>
+              <p class="product-price">₹4,999</p>
+              <button class="btn" style="margin-top:12px; width:100%; background:#c6a769; color:white;">Add to Cart</button>
+            </div>
+          </div>
+
+          <!-- Add more cards as needed (total 12 in reference) -->
+          <!-- You can copy-paste more similar cards -->
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Exact same footer as index.html -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>ADNC</h3>
+          <p>Premium Middle Eastern-Inspired Luxury Skincare</p>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4>Shop</h4>
+          <ul>
+            <li><a href="#">Night Creams</a></li>
+            <li><a href="#">Serums</a></li>
+            <li><a href="#">Cleansers</a></li>
+            <li><a href="#">Eye Care</a></li>
+            <li><a href="#">Sunscreen</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">Track Order</a></li>
+            <li><a href="#">Shipping & Returns</a></li>
+            <li><a href="#">FAQs</a></li>
+            <li><a href="#">Contact Us</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Newsletter</h4>
+          <p>Stay updated with exclusive offers & new launches</p>
+          <form class="newsletter-form">
+            <input type="email" placeholder="Your email address" required>
+            <button type="submit">Subscribe</button>
+          </form>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 ADNC Skincare. All Rights Reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 1000, once: true });
+
+    // Mobile Menu (same as index)
+    document.querySelector('.hamburger').addEventListener('click', () => {
+      document.getElementById('mobileMenu').classList.toggle('active');
+    });
+    document.querySelector('.close-menu').addEventListener('click', () => {
+      document.getElementById('mobileMenu').classList.remove('active');
+    });
+
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+      document.querySelector('.site-header').classList.toggle('scrolled', window.scrollY > 50);
+    });
+  </script>
+</body>
+</html>

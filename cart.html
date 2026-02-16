@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Cart - ADNC Luxury Skincare</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;600;700&family=Trajan+Pro:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #c6a769;
+      --text: #3e2f25;
+      --bg-light: #f8f5f0;
+      --gradient-start: #e8dfd8;
+      --gradient-end: #f8f5f0;
+      --radius: 16px;
+      --transition: all 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-light);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    .container { width: 90%; max-width: 1320px; margin: 0 auto; padding: 0 80px; }
+
+    /* Announcement + Header + Mobile Menu (exact same as index/shop) */
+    .announcement {
+      height: 40px;
+      background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end), var(--gradient-start));
+      color: #3e2f25;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      animation: shimmer 8s infinite linear;
+    }
+    @keyframes shimmer { 0% {background-position:-200% 0} 100% {background-position:200% 0} }
+
+    .site-header {
+      height: 85px;
+      background: rgba(248,245,240,0.92);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 40px;
+      z-index: 999;
+      transition: background 0.4s ease, box-shadow 0.4s ease;
+    }
+    .site-header.scrolled { background: rgba(255,255,255,0.92); box-shadow: 0 4px 20px rgba(62,47,37,0.1); }
+    .nav-flex { height: 100%; display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-family: 'Trajan Pro', serif; font-size: 48px; letter-spacing: 4px; font-weight: 600; color: #3e2f25; text-decoration: none; }
+    .logo:hover { color: #c6a769; transform: scale(1.04); }
+    .menu { list-style: none; display: flex; gap: 50px; }
+    .menu a { color: #3e2f25; font-size: 17px; letter-spacing: 1px; font-weight: 500; position: relative; }
+    .menu a::after { content:''; position:absolute; width:0; height:2px; bottom:-6px; left:50%; background:#c6a769; transition:0.3s; }
+    .menu a:hover::after, .menu a.active::after { width:100%; left:0; }
+    .menu a:hover, .menu a.active { color:#c6a769; }
+    .icons { display:flex; gap:30px; }
+    .icons i { color:#3e2f25; font-size:22px; cursor:pointer; transition:0.3s; }
+    .icons i:hover { color:#c6a769; transform:scale(1.15); }
+    .cart-count { position:absolute; top:-10px; right:-12px; background:#c6a769; color:white; font-size:11px; width:16px; height:16px; border-radius:50%; display:flex; align-items:center; justify-content:center; }
+
+    .hamburger { display:none; flex-direction:column; gap:6px; cursor:pointer; }
+    .hamburger span { width:30px; height:3px; background:var(--text); }
+
+    .mobile-menu {
+      position: fixed; top: 0; right: -100%; width: 85%; max-width: 360px; height: 100%;
+      background: white; box-shadow: -20px 0 60px rgba(0,0,0,0.25);
+      transition: right 0.5s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1000; padding: 100px 40px 40px;
+    }
+    .mobile-menu.active { right: 0; }
+
+    /* Cart Page Layout */
+    .cart-main {
+      padding: 140px 0 80px;
+    }
+
+    .cart-layout {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 60px;
+    }
+
+    .cart-items .cart-item {
+      display: flex;
+      gap: 28px;
+      padding: 32px 0;
+      border-bottom: 1px solid #eee;
+      transition: all 0.4s ease;
+    }
+
+    .cart-item img {
+      width: 140px;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+
+    .cart-item h3 { font-size: 1.45rem; margin-bottom: 6px; }
+    .cart-item .variant { color: #666; margin-bottom: 12px; }
+    .item-price { font-size: 1.55rem; font-weight: 700; color: #c6a769; }
+
+    .quantity {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 16px 0;
+    }
+    .qty-btn {
+      width: 36px; height: 36px; border: 1px solid #ddd; border-radius: 50%;
+      background: white; font-size: 1.4rem; cursor: pointer;
+      transition: 0.3s;
+    }
+    .qty-btn:hover { background: #f8f5f0; }
+
+    .remove-item {
+      color: #E11D48;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    /* Order Summary */
+    .order-summary {
+      background: white;
+      padding: 40px;
+      border-radius: 24px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+      position: sticky;
+      top: 140px;
+      align-self: start;
+    }
+
+    .order-summary h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      margin-bottom: 24px;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 16px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .summary-total {
+      font-size: 1.6rem;
+      font-weight: 700;
+      padding: 24px 0;
+      border-top: 2px solid #eee;
+    }
+
+    .btn {
+      background: #c6a769;
+      color: white;
+      padding: 18px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.15rem;
+      font-weight: 600;
+      width: 100%;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .btn:hover { background: #b38f4f; transform: translateY(-2px); }
+
+    /* Footer (exact same) */
+    .site-footer {
+      background: #2a1a19;
+      color: white;
+      padding: 100px 0 60px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 60px;
+    }
+    .footer-grid h3 { font-family: 'Playfair Display', serif; font-size: 2.4rem; margin-bottom: 20px; }
+    .footer-grid h4 { font-size: 1.4rem; margin-bottom: 20px; }
+    .footer-grid a { color: #ddd; text-decoration: none; line-height: 2.4; display: block; }
+    .footer-grid a:hover { color: white; }
+    .social-icons { display: flex; gap: 24px; font-size: 1.8rem; }
+    .footer-bottom {
+      margin-top: 80px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(255,255,255,0.12);
+      text-align: center;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 992px) {
+      .cart-layout { grid-template-columns: 1fr; }
+      .menu { display: none; }
+      .hamburger { display: flex; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="announcement">
+    Extra 10% Discount on UPI Payment • Use Code <strong>UPI10</strong>
+  </div>
+
+  <header class="site-header">
+    <div class="container nav-flex">
+      <a href="index.html" class="logo">ADNC</a>
+      <ul class="menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="about-us.html">About Us</a></li>
+        <li><a href="collections.html">Collections</a></li>
+      </ul>
+      <div class="icons">
+        <a href="login.html"><i class="fas fa-user"></i></a>
+        <a href="cart.html" class="cart-icon">
+          <i class="fas fa-shopping-bag"></i>
+          <span class="cart-count">2</span>
+        </a>
+      </div>
+      <button class="hamburger">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="close-menu">×</button>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="about-us.html">About Us</a></li>
+      <li><a href="collections.html">Collections</a></li>
+      <li><a href="login.html">Account</a></li>
+      <li><a href="cart.html">Cart</a></li>
+    </ul>
+  </div>
+
+  <main class="cart-main container">
+    <h1 data-aos="fade-up">Your Cart</h1>
+    <p data-aos="fade-up" data-aos-delay="100" id="itemCount">2 items</p>
+
+    <div class="cart-layout">
+      <!-- Cart Items -->
+      <div class="cart-items" id="cartItems">
+        <!-- Item 1 -->
+        <div class="cart-item" data-price="8999" data-aos="fade-up">
+          <img src="assets/uploads/products/product-nightcream.jpg" alt="Night Cream">
+          <div>
+            <h3>ADNC Dubai Night Cream</h3>
+            <p class="variant">50ml • Intensive Hydration</p>
+            <p class="item-price">₹8,999</p>
+            
+            <div class="quantity">
+              <button class="qty-btn minus" onclick="updateItemQty(this, -1)">–</button>
+              <span class="qty">1</span>
+              <button class="qty-btn plus" onclick="updateItemQty(this, 1)">+</button>
+            </div>
+            
+            <a href="#" class="remove-item" onclick="removeItem(this)">Remove</a>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="cart-item" data-price="4999" data-aos="fade-up" data-aos-delay="100">
+          <img src="assets/uploads/products/product-serum.jpg" alt="Face Serum">
+          <div>
+            <h3>ADNC Face Serum</h3>
+            <p class="variant">30ml • Vitamin C Booster</p>
+            <p class="item-price">₹4,999</p>
+            
+            <div class="quantity">
+              <button class="qty-btn minus" onclick="updateItemQty(this, -1)">–</button>
+              <span class="qty">1</span>
+              <button class="qty-btn plus" onclick="updateItemQty(this, 1)">+</button>
+            </div>
+            
+            <a href="#" class="remove-item" onclick="removeItem(this)">Remove</a>
+          </div>
+        </div>
+
+        <a href="shop.html" style="color: #c6a769; text-decoration: none; font-weight: 500; margin-top: 24px; display: inline-block;">← Continue Shopping</a>
+      </div>
+
+      <!-- Order Summary -->
+      <aside class="order-summary" data-aos="fade-left">
+        <h2>Order Summary</h2>
+
+        <div class="summary-row" id="summarySubtotal">
+          <span>Subtotal</span>
+          <span>₹13,998</span>
+        </div>
+
+        <div class="summary-row">
+          <span>Shipping</span>
+          <span style="color: #22c55e; font-weight: bold;">Free</span>
+        </div>
+
+        <div class="summary-row" id="summaryGST">
+          <span>GST (18%)</span>
+          <span>₹2,520</span>
+        </div>
+
+        <div class="summary-total" id="summaryTotal">
+          <span>Total</span>
+          <span style="color: #c6a769;">₹16,518</span>
+        </div>
+
+        <div style="margin: 24px 0;">
+          <input type="text" id="promoCode" placeholder="Promo code" style="width: 60%; padding: 14px; border: 1px solid #ddd; border-radius: 8px;">
+          <button onclick="applyPromo()" style="padding: 14px 24px; background: #c6a769; color: white; border: none; border-radius: 8px; cursor: pointer;">Apply</button>
+        </div>
+
+        <a href="checkout.html" class="btn">Proceed to Checkout</a>
+      </aside>
+    </div>
+  </main>
+
+  <!-- Exact same footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>ADNC</h3>
+          <p>Premium Middle Eastern-Inspired Luxury Skincare</p>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4>Shop</h4>
+          <ul>
+            <li><a href="shop.html">Night Creams</a></li>
+            <li><a href="shop.html">Serums</a></li>
+            <li><a href="shop.html">Cleansers</a></li>
+            <li><a href="shop.html">Eye Care</a></li>
+            <li><a href="shop.html">Sunscreen</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">Track Order</a></li>
+            <li><a href="#">Shipping & Returns</a></li>
+            <li><a href="#">FAQs</a></li>
+            <li><a href="#">Contact Us</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Newsletter</h4>
+          <p>Stay updated with exclusive offers & new launches</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 ADNC Skincare. All Rights Reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 1000, once: true });
+
+    // Mobile Menu
+    document.querySelector('.hamburger').addEventListener('click', () => {
+      document.getElementById('mobileMenu').classList.toggle('active');
+    });
+    document.querySelector('.close-menu').addEventListener('click', () => {
+      document.getElementById('mobileMenu').classList.remove('active');
+    });
+
+    // Navbar scroll
+    window.addEventListener('scroll', () => {
+      document.querySelector('.site-header').classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // Cart Logic (advanced)
+    function updateItemQty(btn, change) {
+      const qtySpan = btn.parentElement.querySelector('.qty');
+      let qty = parseInt(qtySpan.textContent);
+      qty = Math.max(1, qty + change);
+      qtySpan.textContent = qty;
+      updateTotals();
+    }
+
+    function removeItem(link) {
+      const item = link.closest('.cart-item');
+      item.style.transition = 'all 0.4s ease';
+      item.style.opacity = '0';
+      item.style.transform = 'translateX(30px)';
+      setTimeout(() => {
+        item.remove();
+        updateTotals();
+        document.getElementById('itemCount').textContent = 
+          document.querySelectorAll('.cart-item').length + ' items';
+      }, 400);
+    }
+
+    function updateTotals() {
+      let subtotal = 0;
+      document.querySelectorAll('.cart-item').forEach(item => {
+        const price = parseInt(item.dataset.price) || 0;
+        const qty = parseInt(item.querySelector('.qty').textContent) || 1;
+        subtotal += price * qty;
+      });
+
+      const gst = Math.round(subtotal * 0.18);
+      const total = subtotal + gst;
+
+      document.getElementById('summarySubtotal').lastElementChild.textContent = '₹' + subtotal.toLocaleString('en-IN');
+      document.getElementById('summaryGST').lastElementChild.textContent = '₹' + gst.toLocaleString('en-IN');
+      document.getElementById('summaryTotal').lastElementChild.textContent = '₹' + total.toLocaleString('en-IN');
+    }
+
+    function applyPromo() {
+      alert("🎉 Promo code applied! (Demo: 10% off on next order)");
+    }
+
+    // Initial calculation
+    updateTotals();
+  </script>
+</body>
+</html>
