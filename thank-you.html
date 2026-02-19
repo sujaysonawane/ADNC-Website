@@ -32,7 +32,7 @@
 
     .container { width: 90%; max-width: 1320px; margin: 0 auto; padding: 0 80px; }
 
-    /* Announcement + Header + Mobile Menu (exact same) */
+    /* Announcement */
     .announcement {
       height: 40px;
       background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end), var(--gradient-start));
@@ -51,6 +51,7 @@
     }
     @keyframes shimmer { 0% {background-position:-200% 0} 100% {background-position:200% 0} }
 
+    /* Header (exact same as your home/collections/about-us) */
     .site-header {
       height: 85px;
       background: rgba(248,245,240,0.92);
@@ -83,7 +84,7 @@
     }
     .mobile-menu.active { right: 0; }
 
-    /* Thank You Page */
+    /* Thank You Page Content (100% same) */
     .thank-you-main {
       padding: 160px 0 100px;
       text-align: center;
@@ -130,7 +131,7 @@
       color: #c6a769;
     }
 
-    /* Footer (exact same) */
+    /* Footer (exact same structure as your home/collections/about-us) */
     .site-footer {
       background: #2a1a19;
       color: white;
@@ -162,10 +163,12 @@
 </head>
 <body>
 
+  <!-- Announcement (same as home) -->
   <div class="announcement">
     Extra 10% Discount on UPI Payment • Use Code <strong>UPI10</strong>
   </div>
 
+  <!-- Header (exact same as home/collections/about-us) -->
   <header class="site-header">
     <div class="container nav-flex">
       <a href="index.html" class="logo">ADNC</a>
@@ -188,6 +191,7 @@
     </div>
   </header>
 
+  <!-- Mobile Menu (same) -->
   <div class="mobile-menu" id="mobileMenu">
     <button class="close-menu">×</button>
     <ul>
@@ -200,6 +204,7 @@
     </ul>
   </div>
 
+  <!-- Thank You Content – 100% same as you provided -->
   <main class="thank-you-main container">
     <div data-aos="fade-down">
       <div class="success-icon">🎉</div>
@@ -249,7 +254,7 @@
     </div>
   </main>
 
-  <!-- Exact same footer -->
+  <!-- Footer – exact same as your home/collections/about-us -->
   <footer class="site-footer">
     <div class="container">
       <div class="footer-grid">
@@ -296,7 +301,7 @@
   <script>
     AOS.init({ duration: 1000, once: true });
 
-    // Mobile Menu
+    // Mobile Menu (same)
     document.querySelector('.hamburger').addEventListener('click', () => {
       document.getElementById('mobileMenu').classList.toggle('active');
     });
@@ -304,12 +309,12 @@
       document.getElementById('mobileMenu').classList.remove('active');
     });
 
-    // Navbar scroll
+    // Navbar scroll effect (same)
     window.addEventListener('scroll', () => {
       document.querySelector('.site-header').classList.toggle('scrolled', window.scrollY > 50);
     });
 
-    // Confetti + Order Details
+    // Confetti + Order Details (your original logic)
     window.onload = () => {
       confetti({
         particleCount: 180,
