@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ADNC Dubai Night Cream - Luxury Skincare</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --gold: #c6a769;
+      --gold-light: #e8d5ad;
+      --gold-dark: #9c7d45;
+      --text: #2c1f15;
+      --text-muted: #7a6555;
+      --bg: #faf7f3;
+      --bg-card: #ffffff;
+      --border: #ede8e0;
+      --shadow: 0 12px 48px rgba(44,31,21,0.09);
+      --shadow-hover: 0 32px 88px rgba(198,167,105,0.28);
+      --radius: 20px;
+      --transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Jost', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    .container { width: 92%; max-width: 1380px; margin: 0 auto; }
+
+    /* ── ANNOUNCEMENT ── */
+    .announcement {
+      height: 40px;
+      background: linear-gradient(90deg, #e8dfd8, #f5ede3, #e8dfd8);
+      background-size: 300% 100%;
+      animation: shimmer 6s infinite linear;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 1.8px;
+      color: var(--text);
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+    .announcement strong { color: var(--gold-dark); }
+    @keyframes shimmer { 0% { background-position: 0% 50%; } 100% { background-position: 300% 50%; } }
+
+    /* ── HEADER ── */
+    .site-header {
+      height: 84px;
+      background: rgba(250,247,243,0.97);
+      backdrop-filter: blur(16px);
+      position: sticky;
+      top: 40px;
+      z-index: 999;
+      border-bottom: 1px solid transparent;
+      transition: var(--transition);
+    }
+    .site-header.scrolled {
+      border-bottom-color: var(--border);
+      box-shadow: 0 4px 24px rgba(44,31,21,0.07);
+    }
+
+    .nav-flex {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 600;
+      letter-spacing: 6px;
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .logo:hover { color: var(--gold); }
+
+    .nav-menu {
+      list-style: none;
+      display: flex;
+      gap: 48px;
+    }
+    .nav-menu a {
+      font-size: 0.88rem;
+      letter-spacing: 2px;
+      font-weight: 500;
+      text-transform: uppercase;
+      color: var(--text);
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 4px;
+      transition: color 0.3s;
+    }
+    .nav-menu a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 1px;
+      background: var(--gold);
+      transition: width 0.35s ease;
+    }
+    .nav-menu a:hover, .nav-menu a.active { color: var(--gold); }
+    .nav-menu a:hover::after, .nav-menu a.active::after { width: 100%; }
+
+    .nav-icons {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    .nav-icons a {
+      color: var(--text);
+      font-size: 1.1rem;
+      transition: color 0.3s;
+      position: relative;
+    }
+    .nav-icons a:hover { color: var(--gold); }
+
+    .cart-badge {
+      position: absolute;
+      top: -8px; right: -10px;
+      background: var(--gold);
+      color: white;
+      font-size: 10px;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+    }
+
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .hamburger span { width: 28px; height: 2px; background: var(--text); border-radius: 2px; }
+
+    /* ── MOBILE MENU ── */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0; right: 0;
+      width: 320px;
+      height: 100%;
+      background: white;
+      z-index: 2000;
+      padding: 60px 40px;
+      flex-direction: column;
+      gap: 32px;
+      box-shadow: -12px 0 60px rgba(0,0,0,0.12);
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+    }
+    .mobile-menu.open { transform: translateX(0); display: flex; }
+    .mobile-menu .close-btn {
+      position: absolute;
+      top: 20px; right: 24px;
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: var(--text);
+      background: none;
+      border: none;
+    }
+    .mobile-menu a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      letter-spacing: 2px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 20px;
+      transition: color 0.3s;
+    }
+    .mobile-menu a:hover { color: var(--gold); }
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      z-index: 1999;
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .overlay.show { display: block; opacity: 1; }
+
+    /* ── LUXURIOUS PRODUCT PAGE ANIMATIONS ── */
+    .product-detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      margin: 60px 0;
+      opacity: 0;
+      transform: translateY(40px);
+      animation: fadeInLux 1.2s cubic-bezier(0.23,1,0.32,1) forwards 0.3s;
+    }
+
+    @keyframes fadeInLux {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Hero Image – Golden Glow Pulse + Silky Zoom */
+    .main-image img {
+      width: 100%;
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      transition: transform 1.4s cubic-bezier(0.23,1,0.32,1), box-shadow 1.4s;
+      animation: goldenPulse 8s infinite ease-in-out;
+    }
+
+    @keyframes goldenPulse {
+      0%, 100% { box-shadow: 0 12px 48px rgba(198,167,105,0.18); }
+      50%      { box-shadow: 0 20px 80px rgba(198,167,105,0.38); }
+    }
+
+    .main-image img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 32px 88px rgba(198,167,105,0.35);
+    }
+
+    /* Thumbnails – Golden border reveal + rotate scale */
+    .thumbnails img {
+      width: 90px;
+      height: 90px;
+      object-fit: cover;
+      border-radius: 12px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.6s cubic-bezier(0.23,1,0.32,1);
+      opacity: 0.85;
+    }
+
+    .thumbnails img:hover,
+    .thumbnails img.active {
+      border-color: var(--gold);
+      transform: scale(1.12) rotate(3deg);
+      opacity: 1;
+      box-shadow: 0 8px 32px rgba(198,167,105,0.25);
+    }
+
+    /* Title – Letter-by-letter golden shimmer */
+    .product-info h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.8rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 200% 100%;
+      animation: shimmerText 6s infinite linear;
+    }
+
+    @keyframes shimmerText {
+      0%   { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    /* Price – Breathing golden scale */
+    .price {
+      font-size: 2.6rem;
+      font-weight: 700;
+      color: var(--gold-dark);
+      margin: 24px 0;
+      display: inline-block;
+      animation: priceBreathe 4s infinite ease-in-out;
+    }
+
+    @keyframes priceBreathe {
+      0%, 100% { transform: scale(1); }
+      50%      { transform: scale(1.03); }
+    }
+
+    .price del {
+      color: var(--text-muted);
+      font-size: 1.6rem;
+      margin-left: 16px;
+      font-weight: 400;
+    }
+
+    /* Benefits – Float in + golden underline */
+    .benefits {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin: 32px 0;
+    }
+
+    .benefit-tag {
+      background: rgba(198,167,105,0.08);
+      color: var(--gold-dark);
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-size: 0.98rem;
+      font-weight: 500;
+      position: relative;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: tagFloat 0.8s cubic-bezier(0.23,1,0.32,1) forwards;
+    }
+
+    .benefit-tag:nth-child(1) { animation-delay: 0.2s; }
+    .benefit-tag:nth-child(2) { animation-delay: 0.3s; }
+    .benefit-tag:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes tagFloat {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .benefit-tag::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 50%;
+      width: 0;
+      height: 1.5px;
+      background: var(--gold);
+      transition: width 0.8s cubic-bezier(0.23,1,0.32,1), left 0.8s;
+    }
+
+    .benefit-tag:hover::after {
+      width: 80%;
+      left: 10%;
+    }
+
+    /* Quantity – Luxury ripple */
+    .quantity button {
+      width: 48px;
+      height: 48px;
+      border: 1px solid var(--border);
+      background: white;
+      border-radius: 12px;
+      font-size: 1.4rem;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s;
+    }
+
+    .quantity button::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 0; height: 0;
+      background: rgba(198,167,105,0.3);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.8s ease, height 0.8s ease;
+      pointer-events: none;
+    }
+
+    .quantity button:hover::before {
+      width: 200px; height: 200px;
+    }
+
+    .quantity button:hover {
+      background: var(--gold);
+      color: white;
+      border-color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    /* Actions – Golden sweep + deep lift */
+    .actions button {
+      padding: 16px 48px;
+      border-radius: 12px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.5s cubic-bezier(0.23,1,0.32,1);
+    }
+
+    .btn-primary {
+      background: var(--text);
+      color: white;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background: var(--gold);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(198,167,105,0.4);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--gold);
+      color: var(--gold);
+    }
+
+    .btn-outline:hover {
+      background: var(--gold);
+      color: white;
+      transform: translateY(-4px);
+    }
+
+    /* Details – Golden expand + icon rotate */
+    details {
+      margin-top: 32px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 16px;
+      transition: all 0.6s ease;
+    }
+
+    summary {
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 1.15rem;
+      padding: 12px 0;
+      position: relative;
+      transition: color 0.4s;
+    }
+
+    summary:hover { color: var(--gold); }
+
+    summary::after {
+      content: '↓';
+      position: absolute;
+      right: 0;
+      transition: transform 0.5s cubic-bezier(0.23,1,0.32,1);
+    }
+
+    details[open] summary::after {
+      transform: rotate(180deg);
+    }
+
+    /* Newly Launched & Related – Cinematic entrance + golden frame hover */
+    .newly-launched, .related {
+      margin: 100px 0;
+    }
+
+    .newly-launched h2, .related h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.8rem;
+      text-align: center;
+      margin-bottom: 48px;
+      color: var(--text);
+    }
+
+    .new-products-grid, .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 40px;
+    }
+
+    .new-product-card, .product-card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      text-align: center;
+      opacity: 0;
+      transform: translateY(60px) rotateX(10deg);
+      animation: cardRevealLux 1s cubic-bezier(0.23,1,0.32,1) forwards;
+    }
+
+    @keyframes cardRevealLux {
+      to { opacity: 1; transform: translateY(0) rotateX(0); }
+    }
+
+    .new-product-card:nth-child(1), .product-card:nth-child(1) { animation-delay: 0.1s; }
+    .new-product-card:nth-child(2), .product-card:nth-child(2) { animation-delay: 0.2s; }
+    .new-product-card:nth-child(3), .product-card:nth-child(3) { animation-delay: 0.3s; }
+
+    .new-product-card:hover, .product-card:hover {
+      transform: translateY(-16px);
+      box-shadow: var(--shadow-hover);
+      border: 1px solid var(--gold-light);
+    }
+
+    .new-product-card img, .product-card img {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+      transition: transform 1.2s cubic-bezier(0.23,1,0.32,1);
+    }
+
+    .new-product-card:hover img, .product-card:hover img {
+      transform: scale(1.08);
+    }
+
+    .new-product-info, .product-info {
+      padding: 24px;
+    }
+
+    .new-product-info h3, .product-info h3 {
+      font-size: 1.35rem;
+      margin-bottom: 12px;
+    }
+
+    .new-product-info .price, .product-info .price {
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--gold-dark);
+    }
+
+    /* Footer */
+    .site-footer {
+      background: #1a0f0a;
+      color: rgba(255,255,255,0.85);
+      padding: 100px 0 50px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 2fr;
+      gap: 60px;
+      padding-bottom: 60px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 40px;
+    }
+
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.4rem;
+      font-weight: 600;
+      letter-spacing: 6px;
+      color: white;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .footer-tagline {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.8;
+      letter-spacing: 0.5px;
+      margin-bottom: 32px;
+    }
+
+    .social-row { display: flex; gap: 18px; }
+    .social-btn {
+      width: 42px; height: 42px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.6);
+      font-size: 0.95rem;
+      transition: var(--transition);
+    }
+    .social-btn:hover { background: var(--gold); border-color: var(--gold); color: white; }
+
+    .footer-col h5 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: white;
+      margin-bottom: 24px;
+    }
+
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: 12px; }
+    .footer-links a {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.55);
+      text-decoration: none;
+      transition: color 0.3s;
+      letter-spacing: 0.5px;
+    }
+    .footer-links a:hover { color: var(--gold-light); }
+
+    .newsletter-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .newsletter-input {
+      padding: 14px 18px;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.06);
+      color: white;
+      font-size: 0.88rem;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    .newsletter-input:focus { border-color: var(--gold); }
+    .newsletter-btn {
+      padding: 14px;
+      background: var(--gold);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .newsletter-btn:hover { background: var(--gold-dark); }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.35);
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .product-detail-grid { grid-template-columns: 1fr; }
+      .nav-menu { display: none; }
+      .hamburger { display: flex; }
+    }
+
+    @media (max-width: 768px) {
+      .new-products-grid, .products-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Announcement -->
+  <div class="announcement">
+    ✦ Extra 10% Discount on UPI Payment &nbsp;•&nbsp; Use Code <strong>UPI10</strong> &nbsp;•&nbsp; Free Shipping on Orders Above ₹2,000 ✦
+  </div>
+
+  <!-- Header -->
+  <header class="site-header" id="header">
+    <div class="container nav-flex">
+      <a href="index.html" class="logo">ADNC</a>
+
+      <ul class="nav-menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="about-us.html">About Us</a></li>
+        <li><a href="collections.html">Collections</a></li>
+      </ul>
+
+      <div class="nav-icons">
+        <a href="login.html"><i class="fas fa-user"></i></a>
+        <a href="cart.html" style="position:relative">
+          <i class="fas fa-shopping-bag"></i>
+          <span class="cart-badge" id="cartCount">0</span>
+        </a>
+      </div>
+
+      <button class="hamburger" id="hamburgerBtn">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div class="overlay" id="overlay"></div>
+  <nav class="mobile-menu" id="mobileMenu">
+    <button class="close-btn" id="closeMenu">×</button>
+    <a href="index.html">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="about-us.html">About Us</a>
+    <a href="collections.html">Collections</a>
+    <a href="login.html">Account</a>
+    <a href="cart.html">Cart</a>
+  </nav>
+
+  <main class="site-main container">
+
+    <div style="margin: 140px 0 40px;">
+      <a href="shop.html" style="color: var(--text-muted); font-size: 1.05rem;">← Back to Shop</a>
+    </div>
+
+    <div class="product-detail-grid">
+
+      <!-- Left: Images -->
+      <div class="product-images">
+        <div class="main-image">
+          <img id="mainPhoto" src="assets/uploads/products/product-nightcream.jpg" alt="ADNC Dubai Night Cream">
+        </div>
+        <div class="thumbnails">
+          <img src="assets/uploads/products/product-nightcream.jpg" alt="Main" onclick="document.getElementById('mainPhoto').src=this.src" class="active">
+          <img src="assets/uploads/products/collection.jpg" alt="Angle" onclick="document.getElementById('mainPhoto').src=this.src">
+          <img src="assets/uploads/products/story-image.jpg" alt="Texture" onclick="document.getElementById('mainPhoto').src=this.src">
+        </div>
+      </div>
+
+      <!-- Right: Product Info -->
+      <div class="product-info">
+        <h1>ADNC Dubai Night Cream</h1>
+        <p class="tagline">Wake Up to Radiant Royal Glow</p>
+        
+        <div class="rating">
+          ★★★★★ <span>(128 reviews)</span>
+        </div>
+
+        <div class="price">
+          ₹8,999 <span><del>₹11,499</del></span>
+        </div>
+
+        <div class="benefits">
+          <div class="benefit-tag">✦ Overnight Deep Repair</div>
+          <div class="benefit-tag">✦ Anti-Aging Formula</div>
+          <div class="benefit-tag">✦ Intense Hydration</div>
+        </div>
+
+        <div class="quantity">
+          <label>Quantity:</label>
+          <button onclick="this.nextElementSibling.innerText = Math.max(1, parseInt(this.nextElementSibling.innerText) - 1)">–</button>
+          <span>1</span>
+          <button onclick="this.previousElementSibling.innerText = parseInt(this.previousElementSibling.innerText) + 1">+</button>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn-primary">Add to Cart</button>
+          <button class="btn btn-outline">Buy Now</button>
+        </div>
+
+        <!-- Tabs / Description -->
+        <div style="margin-top: 48px;">
+          <details open>
+            <summary>How to Use</summary>
+            <p>Gently massage a pearl-sized amount onto cleansed face and neck in upward circular motions. Use 20 minutes before sleep.</p>
+          </details>
+          <details>
+            <summary>Key Ingredients</summary>
+            <p>24k Gold Flakes, Desert Botanicals (Sidr & Date Palm), Advanced Peptides</p>
+          </details>
+          <details>
+            <summary>The Ritual Origin</summary>
+            <p>Inspired by ancient Emirati traditions, combined with modern science for royal glow.</p>
+          </details>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── NEWLY LAUNCHED MINI SECTION ── -->
+    <section class="newly-launched">
+      <h2>Newly Launched</h2>
+      <div class="new-products-grid">
+        <div class="new-product-card">
+          <img src="assets/uploads/products/product-serum2.jpg" alt="New Serum">
+          <div class="new-product-info">
+            <h3>ADNC Hyaluronic Burst Serum</h3>
+            <p class="price">₹5,499</p>
+          </div>
+        </div>
+        <div class="new-product-card">
+          <img src="assets/uploads/products/product-nightcream3.jpg" alt="New Night Cream">
+          <div class="new-product-info">
+            <h3>ADNC Peptide Plump Cream</h3>
+            <p class="price">₹11,499</p>
+          </div>
+        </div>
+        <div class="new-product-card">
+          <img src="assets/uploads/products/product-eyecream2.jpg" alt="New Eye Care">
+          <div class="new-product-info">
+            <h3>ADNC Under Eye Lift Patches</h3>
+            <p class="price">₹3,499</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Related Products -->
+    <section class="related">
+      <h2>Complete Your Ritual</h2>
+      <div class="products-grid">
+        <div class="product-card">
+          <img src="assets/uploads/products/product-serum.jpg" alt="Serum">
+          <div class="product-info">
+            <h3>ADNC Face Serum</h3>
+            <p class="price">₹4,999</p>
+          </div>
+        </div>
+        <div class="product-card">
+          <img src="assets/uploads/products/product-eyecream.jpg" alt="Eye Cream">
+          <div class="product-info">
+            <h3>ADNC Eye Revival Complex</h3>
+            <p class="price">₹6,499</p>
+          </div>
+        </div>
+        <div class="product-card">
+          <img src="assets/uploads/products/product-cleanser.jpg" alt="Cleanser">
+          <div class="product-info">
+            <h3>ADNC Micellar Cleanse</h3>
+            <p class="price">₹2,499</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <span class="footer-logo">ADNC</span>
+          <p class="footer-tagline">Premium Middle Eastern-inspired luxury skincare. Science-backed formulas crafted with the finest ingredients from around the world.</p>
+          <div class="social-row">
+            <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-btn"><i class="fab fa-youtube"></i></a>
+            <a href="#" class="social-btn"><i class="fab fa-pinterest-p"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h5>Shop</h5>
+          <ul class="footer-links">
+            <li><a href="#">Night Creams</a></li>
+            <li><a href="#">Serums</a></li>
+            <li><a href="#">Cleansers</a></li>
+            <li><a href="#">Eye Care</a></li>
+            <li><a href="#">Sunscreen</a></li>
+            <li><a href="#">Gift Sets</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Support</h5>
+          <ul class="footer-links">
+            <li><a href="#">Track Order</a></li>
+            <li><a href="#">Shipping & Returns</a></li>
+            <li><a href="#">FAQs</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Newsletter</h5>
+          <p style="font-size:0.88rem;color:rgba(255,255,255,0.55);line-height:1.7;margin-bottom:4px;">Stay updated with exclusive offers, new launches and skincare secrets from our experts.</p>
+          <div class="newsletter-form">
+            <input type="email" class="newsletter-input" placeholder="Your email address">
+            <button class="newsletter-btn">Subscribe</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2025 ADNC Skincare. All Rights Reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms</a>
+          <a href="#">Sitemap</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 1200, once: true, easing: 'ease-out-cubic' });
+
+    // Mobile Menu
+    document.getElementById('hamburgerBtn')?.addEventListener('click', () => {
+      document.getElementById('mobileMenu').classList.add('open');
+      document.getElementById('overlay').classList.add('show');
+      document.body.style.overflow = 'hidden';
+    });
+
+    document.getElementById('closeMenu')?.addEventListener('click', () => {
+      document.getElementById('mobileMenu').classList.remove('open');
+      document.getElementById('overlay').classList.remove('show');
+      document.body.style.overflow = '';
+    });
+
+    document.getElementById('overlay')?.addEventListener('click', () => {
+      document.getElementById('mobileMenu').classList.remove('open');
+      document.getElementById('overlay').classList.remove('show');
+      document.body.style.overflow = '';
+    });
+
+    // Header scroll effect
+    window.addEventListener('scroll', () => {
+      document.getElementById('header').classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // Thumbnail active state
+    document.querySelectorAll('.thumbnails img').forEach(img => {
+      img.addEventListener('click', () => {
+        document.querySelectorAll('.thumbnails img').forEach(i => i.classList.remove('active'));
+        img.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

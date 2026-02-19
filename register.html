@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Up - ADNC Luxury Skincare</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    :root {
+      --gold: #c6a769;
+      --gold-light: #e8d5ad;
+      --gold-dark: #9c7d45;
+      --text: #2c1f15;
+      --text-muted: #7a6555;
+      --bg: #faf7f3;
+      --bg-card: #ffffff;
+      --border: #ede8e0;
+      --shadow: 0 8px 40px rgba(44,31,21,0.08);
+      --shadow-hover: 0 24px 64px rgba(198,167,105,0.22);
+      --radius: 20px;
+      --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Jost', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── ANNOUNCEMENT, HEADER, MOBILE MENU (unchanged) ── */
+    .announcement {
+      height: 40px;
+      background: linear-gradient(90deg, #e8dfd8, #f5ede3, #e8dfd8);
+      background-size: 300% 100%;
+      animation: shimmer 6s infinite linear;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 1.8px;
+      color: var(--text);
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+    @keyframes shimmer { 0% { background-position: 0% 50%; } 100% { background-position: 300% 50%; } }
+
+    .site-header {
+      height: 84px;
+      background: rgba(250,247,243,0.96);
+      backdrop-filter: blur(16px);
+      position: sticky;
+      top: 40px;
+      z-index: 999;
+      border-bottom: 1px solid transparent;
+      transition: var(--transition);
+    }
+    .site-header.scrolled {
+      border-bottom-color: var(--border);
+      box-shadow: 0 4px 24px rgba(44,31,21,0.07);
+    }
+
+    .container { width: 92%; max-width: 1380px; margin: 0 auto; }
+
+    .nav-flex {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 600;
+      letter-spacing: 6px;
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .logo:hover { color: var(--gold); }
+
+    .nav-menu { list-style: none; display: flex; gap: 48px; }
+    .nav-menu a {
+      font-size: 0.88rem;
+      letter-spacing: 2px;
+      font-weight: 500;
+      text-transform: uppercase;
+      color: var(--text);
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 4px;
+      transition: color 0.3s;
+    }
+    .nav-menu a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 1px;
+      background: var(--gold);
+      transition: width 0.35s ease;
+    }
+    .nav-menu a:hover, .nav-menu a.active { color: var(--gold); }
+    .nav-menu a:hover::after, .nav-menu a.active::after { width: 100%; }
+
+    .nav-icons { display: flex; align-items: center; gap: 28px; }
+    .nav-icons a { color: var(--text); font-size: 1.1rem; transition: color 0.3s; position: relative; }
+    .nav-icons a:hover { color: var(--gold); }
+
+    .cart-badge {
+      position: absolute;
+      top: -8px; right: -10px;
+      background: var(--gold);
+      color: white;
+      font-size: 10px;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+    }
+
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .hamburger span { width: 28px; height: 2px; background: var(--text); border-radius: 2px; }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0; right: 0;
+      width: 320px;
+      height: 100%;
+      background: white;
+      z-index: 2000;
+      padding: 60px 40px;
+      flex-direction: column;
+      gap: 32px;
+      box-shadow: -12px 0 60px rgba(0,0,0,0.12);
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+    }
+    .mobile-menu.open { transform: translateX(0); display: flex; }
+    .mobile-menu .close-btn {
+      position: absolute;
+      top: 20px; right: 24px;
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: var(--text);
+      background: none;
+      border: none;
+    }
+    .mobile-menu a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      letter-spacing: 2px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 20px;
+      transition: color 0.3s;
+    }
+    .mobile-menu a:hover { color: var(--gold); }
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      z-index: 1999;
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .overlay.show { display: block; opacity: 1; }
+
+    /* ── SIGN UP SECTION ── */
+    .signup-section {
+      min-height: 100vh;
+      padding: 140px 0 100px;
+      background: url('https://images.unsplash.com/photo-1615529182904-14819c35db37?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=90') center center / cover no-repeat fixed;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .signup-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(250,247,243,0.86), rgba(250,247,243,0.92));
+      z-index: 1;
+    }
+
+    .signup-container {
+      position: relative;
+      z-index: 2;
+      max-width: 520px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .auth-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 64px 56px;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      animation: cardIn 1s ease forwards 0.3s;
+    }
+
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(60px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .auth-card:hover {
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-10px);
+    }
+
+    .logo-big {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 4.8rem;
+      font-weight: 600;
+      letter-spacing: 6px;
+      text-align: center;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+
+    .tagline {
+      text-align: center;
+      font-size: 1.6rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 1.08rem;
+      margin-bottom: 48px;
+    }
+
+    .form-group {
+      margin-bottom: 36px;
+      position: relative;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 16px 20px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: 1rem;
+      background: white;
+      transition: var(--transition);
+    }
+
+    .form-group input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 4px rgba(198,167,105,0.14);
+      outline: none;
+    }
+
+    .form-group input.error {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 4px rgba(198,167,105,0.3);
+    }
+
+    .form-group label {
+      position: absolute;
+      top: 50%;
+      left: 20px;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+      transition: var(--transition);
+      font-size: 0.95rem;
+    }
+
+    .form-group input:focus + label,
+    .form-group input:not(:placeholder-shown) + label {
+      top: -10px;
+      left: 14px;
+      font-size: 0.82rem;
+      background: var(--bg-card);
+      padding: 0 8px;
+      color: var(--gold);
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: var(--text-muted);
+      font-size: 1.15rem;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 16px;
+      background: var(--text);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 500;
+      letter-spacing: 2.2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: var(--transition);
+      margin: 24px 0 12px;
+    }
+
+    .btn:hover {
+      background: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    .google-btn {
+      background: #4285F4;
+      margin-top: 8px;
+    }
+
+    .google-btn:hover {
+      background: #357ae8;
+    }
+
+    .form-footer {
+      text-align: center;
+      margin-top: 44px;
+      font-size: 0.96rem;
+      color: var(--text-muted);
+    }
+
+    .form-footer a {
+      color: var(--gold);
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    .form-footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* ── GOLD-THEMED SMOOTH ERROR POPUP ── */
+    #errorPopup {
+      position: fixed;
+      top: 30px;
+      left: 50%;
+      transform: translateX(-50%) scale(0.8);
+      background: rgba(198,167,105,0.18);
+      color: var(--gold-dark);
+      padding: 18px 44px;
+      border-radius: 24px;
+      border: 2px solid var(--gold);
+      box-shadow: 0 16px 60px rgba(198,167,105,0.35);
+      font-size: 1.05rem;
+      font-weight: 500;
+      letter-spacing: 0.6px;
+      z-index: 4000;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+      backdrop-filter: blur(12px);
+      text-align: center;
+      min-width: 340px;
+    }
+
+    #errorPopup.show {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(-50%) scale(1);
+      animation: goldBreathe 3.5s infinite ease-in-out;
+    }
+
+    @keyframes goldBreathe {
+      0%, 100% { box-shadow: 0 16px 60px rgba(198,167,105,0.35); }
+      50%      { box-shadow: 0 20px 80px rgba(198,167,105,0.55); }
+    }
+
+    /* ── LUXURIOUS SUCCESS ANIMATION (unchanged) ── */
+    #successOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(44,31,21,0.88);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 3000;
+      opacity: 0;
+      transition: opacity 0.9s ease;
+    }
+
+    #successOverlay.show {
+      display: flex;
+      opacity: 1;
+    }
+
+    .success-content {
+      text-align: center;
+      color: white;
+      position: relative;
+    }
+
+    .success-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 280px;
+      height: 280px;
+      background: radial-gradient(circle, rgba(198,167,105,0.5) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: glowPulseLux 4.5s infinite ease-in-out;
+      opacity: 0;
+      animation-delay: 0.8s;
+    }
+
+    @keyframes glowPulseLux {
+      0%, 100% { transform: translate(-50%, -50%) scale(0.7); opacity: 0.3; }
+      50%      { transform: translate(-50%, -50%) scale(1.35); opacity: 0.65; }
+    }
+
+    .success-check {
+      font-size: 9rem;
+      color: var(--gold);
+      margin-bottom: 32px;
+      opacity: 0;
+      transform: scale(0.2);
+      animation: luxuriousPop 1.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards 0.7s;
+      text-shadow: 0 0 60px rgba(198,167,105,0.9);
+    }
+
+    @keyframes luxuriousPop {
+      0%   { opacity: 0; transform: scale(0.2); }
+      50%  { opacity: 1; transform: scale(1.2); }
+      75%  { transform: scale(0.96); }
+      100% { transform: scale(1); }
+    }
+
+    .success-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.8rem;
+      margin-bottom: 16px;
+      opacity: 0;
+      animation: fadeUpLux 1.3s ease forwards 1.7s;
+      text-shadow: 0 6px 30px rgba(0,0,0,0.6);
+    }
+
+    .success-subtitle {
+      font-size: 1.4rem;
+      color: var(--gold-light);
+      opacity: 0;
+      animation: fadeUpLux 1.3s ease forwards 2.1s;
+    }
+
+    @keyframes fadeUpLux {
+      from { opacity: 0; transform: translateY(60px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .particle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: var(--gold-light);
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0;
+      animation: particleRiseLux 6.5s ease-out infinite;
+    }
+
+    @keyframes particleRiseLux {
+      0%   { transform: translateY(0) scale(0); opacity: 0.95; }
+      35%  { opacity: 1; }
+      100% { transform: translateY(-220vh) scale(0.15); opacity: 0; }
+    }
+
+    /* ── FOOTER ── */
+    .site-footer {
+      background: #1a0f0a;
+      color: rgba(255,255,255,0.85);
+      padding: 100px 0 50px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 2fr;
+      gap: 60px;
+      padding-bottom: 60px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 40px;
+    }
+
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.4rem;
+      font-weight: 600;
+      letter-spacing: 6px;
+      color: white;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .footer-tagline {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.8;
+      letter-spacing: 0.5px;
+      margin-bottom: 32px;
+    }
+
+    .social-row { display: flex; gap: 18px; }
+    .social-btn {
+      width: 42px; height: 42px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.6);
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .social-btn:hover { background: var(--gold); border-color: var(--gold); color: white; }
+
+    .footer-col h5 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: white;
+      margin-bottom: 24px;
+    }
+
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: 12px; }
+    .footer-links a {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.55);
+      text-decoration: none;
+      transition: color 0.3s;
+      letter-spacing: 0.5px;
+    }
+    .footer-links a:hover { color: var(--gold-light); }
+
+    .newsletter-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .newsletter-input {
+      padding: 14px 18px;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.06);
+      color: white;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.88rem;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    .newsletter-input::placeholder { color: rgba(255,255,255,0.35); }
+    .newsletter-input:focus { border-color: var(--gold); }
+    .newsletter-btn {
+      padding: 14px;
+      background: var(--gold);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .newsletter-btn:hover { background: var(--gold-dark); }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-bottom p { font-size: 0.82rem; color: rgba(255,255,255,0.35); letter-spacing: 1px; }
+    .footer-bottom-links { display: flex; gap: 24px; }
+    .footer-bottom-links a { font-size: 0.8rem; color: rgba(255,255,255,0.35); text-decoration: none; transition: color 0.3s; }
+    .footer-bottom-links a:hover { color: var(--gold-light); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 992px) {
+      .nav-menu { display: none; }
+      .hamburger { display: flex; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      .signup-section { padding: 120px 0 80px; }
+      .auth-card { padding: 48px 32px; }
+      .logo-big { font-size: 3.8rem; }
+      .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      #errorPopup { min-width: 90%; font-size: 0.95rem; padding: 14px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Announcement -->
+  <div class="announcement">
+    ✦ Extra 10% Discount on UPI Payment &nbsp;•&nbsp; Use Code <strong>&nbsp;UPI10&nbsp;</strong> &nbsp;•&nbsp; Free Shipping on Orders Above ₹2,000 ✦
+  </div>
+
+  <!-- Header -->
+  <header class="site-header" id="header">
+    <div class="container nav-flex">
+      <a href="index.html" class="logo">ADNC</a>
+
+      <ul class="nav-menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="about-us.html">About Us</a></li>
+        <li><a href="collections.html">Collections</a></li>
+      </ul>
+
+      <div class="nav-icons">
+        <a href="login.html"><i class="fas fa-user"></i></a>
+        <a href="cart.html" style="position:relative">
+          <i class="fas fa-shopping-bag"></i>
+          <span class="cart-badge" id="cartCount">0</span>
+        </a>
+      </div>
+
+      <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div class="overlay" id="overlay"></div>
+  <nav class="mobile-menu" id="mobileMenu">
+    <button class="close-btn" id="closeMenu">×</button>
+    <a href="index.html">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="about-us.html">About Us</a>
+    <a href="collections.html">Collections</a>
+    <a href="login.html">Sign In</a>
+    <a href="cart.html">Cart</a>
+  </nav>
+
+  <!-- Sign Up Section -->
+  <section class="signup-section">
+    <div class="signup-container">
+      <div class="auth-card">
+        <div class="logo-big">ADNC</div>
+        <div class="tagline">Join the Royal Circle</div>
+        <div class="subtitle">Create your account to unlock exclusive luxury skincare rituals</div>
+
+        <form id="registerForm">
+          <div class="form-group">
+            <input type="email" id="regEmail" placeholder=" " required>
+            <label for="regEmail">Email Address</label>
+          </div>
+
+          <div class="form-group">
+            <input type="password" id="regPassword" placeholder=" " required>
+            <label for="regPassword">Create Password</label>
+            <i class="fas fa-eye password-toggle" id="toggleRegPass" onclick="togglePassword('regPassword')"></i>
+          </div>
+
+          <div class="form-group">
+            <input type="password" id="regConfirmPassword" placeholder=" " required>
+            <label for="regConfirmPassword">Confirm Password</label>
+            <i class="fas fa-eye password-toggle" id="toggleConfirmPass" onclick="togglePassword('regConfirmPassword')"></i>
+          </div>
+
+          <label style="display: flex; align-items: center; gap: 12px; font-size: 0.94rem; color: var(--text-muted); margin: 32px 0;">
+            <input type="checkbox" required> I agree to the 
+            <a href="#" style="color: var(--gold);">Terms & Privacy Policy</a>
+          </label>
+
+          <button type="submit" class="btn">Create My Account</button>
+
+          <button type="button" class="btn google-btn">
+            <i class="fab fa-google" style="margin-right: 12px;"></i> Continue with Google
+          </button>
+        </form>
+
+        <div class="form-footer">
+          Already have an account? 
+          <a href="login.html">Sign in here</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Luxurious Success Overlay -->
+  <div id="successOverlay">
+    <div class="success-content">
+      <div class="success-glow"></div>
+      <div class="success-check">✦</div>
+      <div class="success-title">Welcome to ADNC</div>
+      <div class="success-subtitle">Your royal skincare journey begins</div>
+    </div>
+  </div>
+
+  <!-- Gold-Themed Smooth Error Popup -->
+  <div id="errorPopup">Passwords do not align. Please ensure harmony.</div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <span class="footer-logo">ADNC</span>
+          <p class="footer-tagline">Premium Middle Eastern-inspired luxury skincare. Science-backed formulas crafted with the finest ingredients from around the world.</p>
+          <div class="social-row">
+            <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-btn"><i class="fab fa-youtube"></i></a>
+            <a href="#" class="social-btn"><i class="fab fa-pinterest-p"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h5>Shop</h5>
+          <ul class="footer-links">
+            <li><a href="#">Night Creams</a></li>
+            <li><a href="#">Serums</a></li>
+            <li><a href="#">Cleansers</a></li>
+            <li><a href="#">Eye Care</a></li>
+            <li><a href="#">Sunscreen</a></li>
+            <li><a href="#">Gift Sets</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Support</h5>
+          <ul class="footer-links">
+            <li><a href="#">Track Order</a></li>
+            <li><a href="#">Shipping & Returns</a></li>
+            <li><a href="#">FAQs</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Newsletter</h5>
+          <p style="font-size:0.88rem;color:rgba(255,255,255,0.55);line-height:1.7;margin-bottom:4px;">Stay updated with exclusive offers, new launches and skincare secrets from our experts.</p>
+          <div class="newsletter-form">
+            <input type="email" class="newsletter-input" placeholder="Your email address">
+            <button class="newsletter-btn">Subscribe</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2025 ADNC Skincare. All Rights Reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms</a>
+          <a href="#">Sitemap</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Header scroll
+    window.addEventListener('scroll', () => {
+      document.getElementById('header').classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // Mobile menu
+    const hamburger = document.getElementById('hamburgerBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const overlay = document.getElementById('overlay');
+    const closeMenu = document.getElementById('closeMenu');
+
+    function openMenu() {
+      mobileMenu.classList.add('open');
+      overlay.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMenuFn() {
+      mobileMenu.classList.remove('open');
+      overlay.classList.remove('show');
+      document.body.style.overflow = '';
+    }
+    hamburger.addEventListener('click', openMenu);
+    closeMenu.addEventListener('click', closeMenuFn);
+    overlay.addEventListener('click', closeMenuFn);
+
+    // Password toggle
+    function togglePassword(id) {
+      const input = document.getElementById(id);
+      const icon = document.getElementById(id === 'regPassword' ? 'toggleRegPass' : 'toggleConfirmPass');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.replace('fa-eye', 'fa-eye-slash');
+      } else {
+        input.type = 'password';
+        icon.classList.replace('fa-eye-slash', 'fa-eye');
+      }
+    }
+
+    // Show smooth gold-themed error popup
+    function showPasswordError() {
+      const popup = document.getElementById('errorPopup');
+      popup.classList.add('show');
+
+      // Auto hide after 4.5 seconds
+      setTimeout(() => {
+        popup.classList.remove('show');
+      }, 4500);
+    }
+
+    // Luxurious success animation + auto redirect to login
+    function showLuxSuccess() {
+      const overlay = document.getElementById('successOverlay');
+      overlay.classList.add('show');
+
+      // Floating golden stardust particles
+      for (let i = 0; i < 60; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + 'vw';
+        particle.style.bottom = '0';
+        particle.style.animationDelay = Math.random() * 2.5 + 's';
+        particle.style.animationDuration = (Math.random() * 5 + 5) + 's';
+        document.body.appendChild(particle);
+        setTimeout(() => particle.remove(), 10000);
+      }
+
+      // Auto redirect to login page after animation
+      setTimeout(() => {
+        overlay.style.opacity = '0';
+        setTimeout(() => {
+          window.location.href = 'login.html';
+        }, 900);
+      }, 4500);
+    }
+
+    // Form submission handler
+    document.getElementById('registerForm').addEventListener('submit', e => {
+      e.preventDefault();
+
+      const pass = document.getElementById('regPassword').value;
+      const confirm = document.getElementById('regConfirmPassword').value;
+
+      if (pass !== confirm || !confirm) {
+        document.getElementById('regConfirmPassword').classList.add('error');
+        showPasswordError();
+        return;
+      }
+
+      // Remove error class if valid
+      document.getElementById('regConfirmPassword').classList.remove('error');
+
+      // Trigger luxurious success + redirect to login
+      showLuxSuccess();
+    });
+  </script>
+</body>
+</html>

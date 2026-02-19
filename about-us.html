@@ -4,420 +4,787 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>About Us - ADNC Luxury Skincare</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;600;700&family=Trajan+Pro:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
   <style>
     :root {
-      --primary: #c6a769;
-      --text: #3e2f25;
-      --bg-light: #f8f5f0;
-      --gradient-start: #e8dfd8;
-      --gradient-end: #f8f5f0;
-      --radius: 16px;
-      --transition: all 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+      --gold: #c6a769;
+      --gold-light: #e8d5ad;
+      --gold-dark: #9c7d45;
+      --text: #2c1f15;
+      --text-muted: #7a6555;
+      --bg: #faf7f3;
+      --bg-card: #ffffff;
+      --border: #ede8e0;
+      --shadow: 0 8px 40px rgba(44,31,21,0.08);
+      --shadow-hover: 0 24px 64px rgba(198,167,105,0.22);
+      --radius: 20px;
+      --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    * { margin:0; padding:0; box-sizing:border-box; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
     body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg-light);
+      font-family: 'Jost', sans-serif;
+      background: var(--bg);
       color: var(--text);
       line-height: 1.7;
+      overflow-x: hidden;
     }
 
-    .container { width: 90%; max-width: 1320px; margin: 0 auto; padding: 0 80px; }
-
-    /* Announcement + Header + Mobile Menu (exact same) */
+    /* ── ANNOUNCEMENT ── */
     .announcement {
       height: 40px;
-      background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end), var(--gradient-start));
-      color: #3e2f25;
-      font-size: 14px;
-      font-weight: 500;
-      letter-spacing: 1.5px;
+      background: linear-gradient(90deg, #e8dfd8, #f5ede3, #e8dfd8);
+      background-size: 300% 100%;
+      animation: shimmer 6s infinite linear;
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 1.8px;
+      color: var(--text);
       position: fixed;
       top: 0;
       width: 100%;
       z-index: 1000;
-      animation: shimmer 8s infinite linear;
     }
-    @keyframes shimmer { 0% {background-position:-200% 0} 100% {background-position:200% 0} }
+    .announcement strong { color: var(--gold-dark); }
+    @keyframes shimmer { 0% { background-position: 0% 50%; } 100% { background-position: 300% 50%; } }
 
+    /* ── HEADER ── */
     .site-header {
-      height: 85px;
-      background: rgba(248,245,240,0.92);
-      backdrop-filter: blur(12px);
+      height: 84px;
+      background: rgba(250,247,243,0.96);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       position: sticky;
       top: 40px;
       z-index: 999;
-      transition: background 0.4s ease, box-shadow 0.4s ease;
+      border-bottom: 1px solid transparent;
+      transition: var(--transition);
     }
-    .site-header.scrolled { background: rgba(255,255,255,0.92); box-shadow: 0 4px 20px rgba(62,47,37,0.1); }
-    .nav-flex { height: 100%; display: flex; justify-content: space-between; align-items: center; }
-    .logo { font-family: 'Trajan Pro', serif; font-size: 48px; letter-spacing: 4px; font-weight: 600; color: #3e2f25; text-decoration: none; }
-    .logo:hover { color: #c6a769; transform: scale(1.04); }
-    .menu { list-style: none; display: flex; gap: 50px; }
-    .menu a { color: #3e2f25; font-size: 17px; letter-spacing: 1px; font-weight: 500; position: relative; }
-    .menu a::after { content:''; position:absolute; width:0; height:2px; bottom:-6px; left:50%; background:#c6a769; transition:0.3s; }
-    .menu a:hover::after, .menu a.active::after { width:100%; left:0; }
-    .menu a:hover, .menu a.active { color:#c6a769; }
-    .icons { display:flex; gap:30px; }
-    .icons i { color:#3e2f25; font-size:22px; cursor:pointer; transition:0.3s; }
-    .icons i:hover { color:#c6a769; transform:scale(1.15); }
-
-    .hamburger { display:none; flex-direction:column; gap:6px; cursor:pointer; }
-    .hamburger span { width:30px; height:3px; background:var(--text); }
-
-    .mobile-menu {
-      position: fixed; top: 0; right: -100%; width: 85%; max-width: 360px; height: 100%;
-      background: white; box-shadow: -20px 0 60px rgba(0,0,0,0.25);
-      transition: right 0.5s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1000; padding: 100px 40px 40px;
+    .site-header.scrolled {
+      border-bottom-color: var(--border);
+      box-shadow: 0 4px 24px rgba(44,31,21,0.07);
     }
-    .mobile-menu.active { right: 0; }
 
-    /* About Page */
-    .about-hero {
-      height: 85vh;
-      background: url('assets/uploads/about-hero.jpg') center/cover no-repeat fixed;
+    .container { width: 92%; max-width: 1380px; margin: 0 auto; }
+
+    .nav-flex {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 600;
+      letter-spacing: 6px;
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .logo:hover { color: var(--gold); }
+
+    .nav-menu { list-style: none; display: flex; gap: 48px; }
+    .nav-menu a {
+      font-size: 0.88rem;
+      letter-spacing: 2px;
+      font-weight: 500;
+      text-transform: uppercase;
+      color: var(--text);
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 4px;
+      transition: color 0.3s;
+    }
+    .nav-menu a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 1px;
+      background: var(--gold);
+      transition: width 0.35s ease;
+    }
+    .nav-menu a:hover, .nav-menu a.active { color: var(--gold); }
+    .nav-menu a:hover::after, .nav-menu a.active::after { width: 100%; }
+
+    .nav-icons { display: flex; align-items: center; gap: 28px; }
+    .nav-icons a { color: var(--text); font-size: 1.1rem; transition: color 0.3s; position: relative; }
+    .nav-icons a:hover { color: var(--gold); }
+
+    .cart-badge {
+      position: absolute;
+      top: -8px; right: -10px;
+      background: var(--gold);
+      color: white;
+      font-size: 10px;
+      width: 16px; height: 16px;
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      text-align: center;
-      color: white;
+      font-weight: 600;
+    }
+
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .hamburger span { width: 28px; height: 2px; background: var(--text); border-radius: 2px; transition: 0.3s; }
+
+    /* ── MOBILE MENU ── */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0; right: 0;
+      width: 320px;
+      height: 100%;
+      background: white;
+      z-index: 2000;
+      padding: 60px 40px;
+      flex-direction: column;
+      gap: 32px;
+      box-shadow: -12px 0 60px rgba(0,0,0,0.12);
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+    }
+    .mobile-menu.open { transform: translateX(0); display: flex; }
+    .mobile-menu .close-btn {
+      position: absolute;
+      top: 20px; right: 24px;
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: var(--text);
+      background: none;
+      border: none;
+    }
+    .mobile-menu a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      letter-spacing: 2px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 20px;
+      transition: color 0.3s;
+    }
+    .mobile-menu a:hover { color: var(--gold); }
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      z-index: 1999;
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .overlay.show { display: block; opacity: 1; }
+
+    /* ── PAGE HERO ── */
+    .about-hero {
+      padding: 80px 0 60px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 60px;
       position: relative;
+      overflow: hidden;
     }
     .about-hero::before {
-      content: ""; position: absolute; inset: 0; background: rgba(0,0,0,0.5);
-    }
-    .about-hero-content {
-      position: relative; z-index: 2; max-width: 900px;
+      content: 'ABOUT';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18rem;
+      font-weight: 300;
+      color: rgba(198,167,105,0.04);
+      white-space: nowrap;
+      pointer-events: none;
+      letter-spacing: 24px;
     }
     .about-hero h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(3.5rem, 7vw, 5.5rem);
-      margin-bottom: 16px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.6rem;
+      font-weight: 300;
+      letter-spacing: 3px;
+      line-height: 1.2;
     }
-
-    .about-section {
-      padding: 120px 0;
+    .about-hero h1 em {
+      font-style: italic;
+      color: var(--gold);
     }
-
-    .story-text {
-      max-width: 820px;
-      margin: 0 auto;
-      font-size: 1.25rem;
-      line-height: 1.85;
-      color: #555;
+    .about-hero p {
+      margin-top: 14px;
+      font-size: 1rem;
+      color: var(--text-muted);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
     }
-
-    .timeline {
-      max-width: 800px;
-      margin: 80px auto;
-    }
-    .timeline-item {
+    .breadcrumb {
       display: flex;
-      gap: 40px;
-      margin-bottom: 60px;
-      align-items: flex-start;
+      gap: 8px;
+      align-items: center;
+      font-size: 0.82rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 24px;
     }
-    .timeline-dot {
-      width: 24px; height: 24px; background: #c6a769; border-radius: 50%;
-      flex-shrink: 0; margin-top: 8px;
-    }
-    .timeline-content h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.6rem;
-      margin-bottom: 8px;
-    }
+    .breadcrumb a { color: var(--text-muted); text-decoration: none; transition: color 0.3s; }
+    .breadcrumb a:hover { color: var(--gold); }
+    .breadcrumb span { color: var(--gold); }
 
-    .ingredients-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 40px;
-      margin-top: 60px;
+    /* ── ABOUT SECTIONS ── */
+    .about-section {
+      margin-bottom: 120px;
     }
-    .ingredient-card {
-      background: white;
-      padding: 32px 24px;
-      border-radius: 20px;
+    .about-section .container {
+      max-width: 1100px;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.8rem;
+      font-weight: 300;
+      letter-spacing: 2px;
       text-align: center;
-      box-shadow: 0 12px 40px rgba(0,0,0,0.06);
+      margin-bottom: 60px;
     }
-    .ingredient-card i {
-      font-size: 3.5rem;
-      color: #c6a769;
-      margin-bottom: 20px;
+    .section-title em {
+      font-style: italic;
+      color: var(--gold);
     }
-
-    .founder {
+    .about-intro {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 60px;
+      gap: 56px;
       align-items: center;
-      margin-top: 80px;
     }
-    .founder img {
-      width: 100%;
-      border-radius: 24px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+    .about-text {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      line-height: 1.9;
     }
-
-    .cta-section {
-      background: white;
-      padding: 80px 0;
-      text-align: center;
+    .about-text strong {
+      color: var(--text);
     }
-
-    .btn {
-      background: #c6a769;
-      color: white;
-      padding: 18px 48px;
-      border: none;
+    .about-img-wrap {
       border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      position: relative;
+    }
+    .about-img-wrap:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-hover);
+    }
+    .about-img-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.7s ease;
+      object-fit: cover;
+    }
+    .about-img-wrap:hover img {
+      transform: scale(1.06);
+    }
+
+    /* Values Grid */
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 36px;
+    }
+    .value-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 40px 32px;
+      box-shadow: var(--shadow);
+      text-align: center;
+      transition: var(--transition);
+      opacity: 0;
+      transform: translateY(30px);
+      animation: cardIn 0.55s ease forwards;
+    }
+    .value-card:nth-child(1) { animation-delay: 0.1s; }
+    .value-card:nth-child(2) { animation-delay: 0.2s; }
+    .value-card:nth-child(3) { animation-delay: 0.3s; }
+    .value-card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-hover);
+    }
+    .value-icon {
+      font-size: 2.2rem;
+      color: var(--gold);
+      margin-bottom: 24px;
+    }
+    .value-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin-bottom: 16px;
+    }
+    .value-desc {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+
+    /* Founder Section */
+    .founder-section {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 56px;
+      align-items: center;
+    }
+    .founder-img-wrap {
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+    .founder-img-wrap:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-hover);
+    }
+    .founder-img-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.7s ease;
+      object-fit: cover;
+    }
+    .founder-img-wrap:hover img {
+      transform: scale(1.06);
+    }
+    .founder-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-style: italic;
+      color: var(--gold);
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+    .founder-name {
       font-size: 1.2rem;
-      font-weight: 600;
+      font-weight: 500;
+      color: var(--text);
+    }
+    .founder-role {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    /* CTA Section */
+    .cta-section {
+      background: linear-gradient(135deg, var(--gold-light), var(--bg));
+      border-radius: var(--radius);
+      padding: 80px 60px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+    .cta-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.4rem;
+      font-weight: 300;
+      margin-bottom: 20px;
+    }
+    .cta-desc {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .btn-cta {
+      padding: 14px 40px;
+      background: var(--text);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
       cursor: pointer;
       transition: var(--transition);
-      text-decoration: none;
-      display: inline-block;
     }
-    .btn:hover { background: #b38f4f; transform: translateY(-4px); }
+    .btn-cta:hover { background: var(--gold); }
 
-    /* Footer (exact same) */
+    /* ── FOOTER ── */
     .site-footer {
-      background: #2a1a19;
-      color: white;
-      padding: 100px 0 60px;
+      background: #1a0f0a;
+      color: rgba(255,255,255,0.85);
+      padding: 100px 0 50px;
     }
+
     .footer-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns: 2fr 1fr 1fr 2fr;
       gap: 60px;
+      padding-bottom: 60px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 40px;
     }
-    .footer-grid h3 { font-family: 'Playfair Display', serif; font-size: 2.4rem; margin-bottom: 20px; }
-    .footer-grid h4 { font-size: 1.4rem; margin-bottom: 20px; }
-    .footer-grid a { color: #ddd; text-decoration: none; line-height: 2.4; display: block; }
-    .footer-grid a:hover { color: white; }
-    .social-icons { display: flex; gap: 24px; font-size: 1.8rem; }
-    .footer-bottom {
-      margin-top: 80px;
-      padding-top: 40px;
-      border-top: 1px solid rgba(255,255,255,0.12);
-      text-align: center;
+
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.4rem;
+      font-weight: 600;
+      letter-spacing: 6px;
+      color: white;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .footer-tagline {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.8;
+      letter-spacing: 0.5px;
+      margin-bottom: 32px;
+    }
+
+    .social-row { display: flex; gap: 18px; }
+    .social-btn {
+      width: 42px; height: 42px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.6);
       font-size: 0.95rem;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .social-btn:hover { background: var(--gold); border-color: var(--gold); color: white; }
+
+    .footer-col h5 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: white;
+      margin-bottom: 24px;
+    }
+
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: 12px; }
+    .footer-links a {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.55);
+      text-decoration: none;
+      transition: color 0.3s;
+      letter-spacing: 0.5px;
+    }
+    .footer-links a:hover { color: var(--gold-light); }
+
+    .newsletter-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .newsletter-input {
+      padding: 14px 18px;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.06);
+      color: white;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.88rem;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    .newsletter-input::placeholder { color: rgba(255,255,255,0.35); }
+    .newsletter-input:focus { border-color: var(--gold); }
+    .newsletter-btn {
+      padding: 14px;
+      background: var(--gold);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .newsletter-btn:hover { background: var(--gold-dark); }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-bottom p { font-size: 0.82rem; color: rgba(255,255,255,0.35); letter-spacing: 1px; }
+    .footer-bottom-links { display: flex; gap: 24px; }
+    .footer-bottom-links a { font-size: 0.8rem; color: rgba(255,255,255,0.35); text-decoration: none; transition: color 0.3s; }
+    .footer-bottom-links a:hover { color: var(--gold-light); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1100px) {
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .about-intro, .founder-section { grid-template-columns: 1fr; }
+      .values-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
     @media (max-width: 992px) {
-      .menu { display: none; }
+      .nav-menu { display: none; }
       .hamburger { display: flex; }
-      .founder { grid-template-columns: 1fr; }
+      .values-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      .about-hero h1 { font-size: 2.4rem; }
+      .section-title { font-size: 2rem; }
+      .cta-section { padding: 60px 30px; }
+      .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+    }
+
+    /* Card appear animation */
+    @keyframes cardIn {
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
 
+  <!-- Announcement -->
   <div class="announcement">
-    Extra 10% Discount on UPI Payment • Use Code <strong>UPI10</strong>
+    ✦ Extra 10% Discount on UPI Payment &nbsp;•&nbsp; Use Code <strong>&nbsp;UPI10&nbsp;</strong> &nbsp;•&nbsp; Free Shipping on Orders Above ₹2,000 ✦
   </div>
 
-  <header class="site-header">
+  <!-- Header -->
+  <header class="site-header" id="header">
     <div class="container nav-flex">
       <a href="index.html" class="logo">ADNC</a>
-      <ul class="menu">
+
+      <ul class="nav-menu">
         <li><a href="index.html">Home</a></li>
         <li><a href="shop.html">Shop</a></li>
         <li><a href="about-us.html" class="active">About Us</a></li>
         <li><a href="collections.html">Collections</a></li>
       </ul>
-      <div class="icons">
+
+      <div class="nav-icons">
         <a href="login.html"><i class="fas fa-user"></i></a>
-        <a href="cart.html" class="cart-icon">
+        <a href="cart.html" style="position:relative">
           <i class="fas fa-shopping-bag"></i>
-          <span class="cart-count">0</span>
+          <span class="cart-badge" id="cartCount">0</span>
         </a>
       </div>
-      <button class="hamburger">
+
+      <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
     </div>
   </header>
 
-  <div class="mobile-menu" id="mobileMenu">
-    <button class="close-menu">×</button>
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="shop.html">Shop</a></li>
-      <li><a href="about-us.html">About Us</a></li>
-      <li><a href="collections.html">Collections</a></li>
-      <li><a href="login.html">Account</a></li>
-      <li><a href="cart.html">Cart</a></li>
-    </ul>
-  </div>
+  <!-- Mobile Menu -->
+  <div class="overlay" id="overlay"></div>
+  <nav class="mobile-menu" id="mobileMenu">
+    <button class="close-btn" id="closeMenu">×</button>
+    <a href="index.html">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="about-us.html">About Us</a>
+    <a href="collections.html">Collections</a>
+    <a href="login.html">Account</a>
+    <a href="cart.html">Cart</a>
+  </nav>
 
+  <!-- Main -->
   <main>
-    <!-- Hero -->
+    <!-- Page Hero -->
     <section class="about-hero">
-      <div class="about-hero-content" data-aos="fade-up">
-        <h1>The Royal Ritual of Dubai</h1>
-        <p style="font-size: 1.4rem; max-width: 620px; margin: 0 auto;">Where ancient desert wisdom meets modern luxury skincare.</p>
+      <div class="container">
+        <div class="breadcrumb">
+          <a href="index.html">Home</a>
+          <i class="fas fa-chevron-right" style="font-size:0.65rem;color:var(--text-muted)"></i>
+          <span>About Us</span>
+        </div>
+        <h1>Our <em>Legacy</em></h1>
+        <p>Timeless beauty &nbsp;·&nbsp; Ancient wisdom &nbsp;·&nbsp; Modern science</p>
       </div>
     </section>
 
-    <!-- Story -->
-    <section class="about-section container" data-aos="fade-up">
-      <div class="story-text">
-        <p>Born in the heart of the Arabian desert, ADNC was founded on the belief that true beauty comes from the earth’s most resilient gifts. For centuries, the royal courts of Dubai have used rare botanicals from the desert to preserve their skin’s youthful radiance. We honor that legacy by combining these time-tested ingredients with cutting-edge Swiss science.</p>
-        <p style="margin-top: 24px;">Every drop of ADNC is a celebration of heritage, purity, and the pursuit of timeless glow.</p>
-      </div>
-    </section>
-
-    <!-- Timeline -->
-    <section class="about-section container" style="background: white;" data-aos="fade-up">
-      <div class="timeline">
-        <div class="timeline-item" data-aos="fade-up" data-aos-delay="100">
-          <div class="timeline-dot"></div>
-          <div class="timeline-content">
-            <h3>2018 • The Vision</h3>
-            <p>A Dubai royal descendant partners with Swiss dermatologists to revive forgotten desert rituals.</p>
+    <!-- About Sections -->
+    <section class="about-section">
+      <div class="container">
+        <h2 class="section-title">Discover <em>ADNC</em></h2>
+        <div class="about-intro">
+          <div class="about-text">
+            <p>At <strong>ADNC Luxury Skincare</strong>, we blend the opulent heritage of Middle Eastern beauty rituals with cutting-edge scientific innovation. Inspired by the golden sands of Dubai and the ancient secrets of Arabian botanicals, our products are crafted to deliver transformative results for your skin.</p>
+            <p>Founded in 2018, ADNC is more than a brand—it's a celebration of timeless elegance, where luxury meets efficacy. Each formula is meticulously developed using premium ingredients like 24K gold peptides, oud extract, and hyaluronic acid complexes, ensuring visible radiance, hydration, and rejuvenation.</p>
           </div>
-        </div>
-        <div class="timeline-item" data-aos="fade-up" data-aos-delay="200">
-          <div class="timeline-dot"></div>
-          <div class="timeline-content">
-            <h3>2020 • The First Ritual</h3>
-            <p>ADNC Dubai Night Cream launches to critical acclaim in the Middle East.</p>
-          </div>
-        </div>
-        <div class="timeline-item" data-aos="fade-up" data-aos-delay="300">
-          <div class="timeline-dot"></div>
-          <div class="timeline-content">
-            <h3>2023 • Global Awakening</h3>
-            <p>ADNC enters the international market, becoming the choice of discerning royalty and celebrities.</p>
-          </div>
-        </div>
-        <div class="timeline-item" data-aos="fade-up" data-aos-delay="400">
-          <div class="timeline-dot"></div>
-          <div class="timeline-content">
-            <h3>2025 • The Royal Circle</h3>
-            <p>Our community of glow-seekers grows to over 12,000 members worldwide.</p>
+          <div class="about-img-wrap">
+            <img src="https://images.stockcake.com/public/0/3/1/0314420d-77d9-4bac-b284-233e87272112/luxury-skincare-products-stockcake.jpg" alt="Opulent ADNC luxury skincare collection with gold accents on marble">
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Ingredients -->
-    <section class="about-section container" data-aos="fade-up">
-      <h2 style="text-align: center; font-family: 'Playfair Display', serif; font-size: 3rem; margin-bottom: 60px;">Treasures from the Desert</h2>
-      <div class="ingredients-grid">
-        <div class="ingredient-card" data-aos="fade-up">
-          <i class="fas fa-leaf"></i>
-          <h3>Date Palm</h3>
-          <p>Rich in antioxidants and vitamins for deep hydration and glow.</p>
-        </div>
-        <div class="ingredient-card" data-aos="fade-up" data-aos-delay="100">
-          <i class="fas fa-seedling"></i>
-          <h3>Sidr Honey</h3>
-          <p>Natural antibacterial and healing properties for clear, radiant skin.</p>
-        </div>
-        <div class="ingredient-card" data-aos="fade-up" data-aos-delay="200">
-          <i class="fas fa-sun"></i>
-          <h3>Desert Rose</h3>
-          <p>Anti-aging elixir that firms and brightens the complexion.</p>
-        </div>
-        <div class="ingredient-card" data-aos="fade-up" data-aos-delay="300">
-          <i class="fas fa-gem"></i>
-          <h3>24K Gold</h3>
-          <p>Luxury mineral that boosts collagen and gives a royal luminosity.</p>
+    <section class="about-section">
+      <div class="container">
+        <h2 class="section-title">Our Core <em>Values</em></h2>
+        <div class="values-grid">
+          <div class="value-card">
+            <i class="fas fa-leaf value-icon"></i>
+            <h3 class="value-title">Natural Luxury</h3>
+            <p class="value-desc">Sourcing the finest natural ingredients from sustainable farms, infused with opulent elements like gold and rare essences for unparalleled indulgence.</p>
+          </div>
+          <div class="value-card">
+            <i class="fas fa-flask value-icon"></i>
+            <h3 class="value-title">Scientific Precision</h3>
+            <p class="value-desc">Backed by dermatological research, our formulas combine ancient wisdom with modern biotechnology for clinically proven, visible results.</p>
+          </div>
+          <div class="value-card">
+            <i class="fas fa-heart value-icon"></i>
+            <h3 class="value-title">Ethical Beauty</h3>
+            <p class="value-desc">Cruelty-free, vegan, and eco-conscious—committed to beauty that respects the planet and empowers every skin type.</p>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Founder -->
-    <section class="about-section container" data-aos="fade-up">
-      <div class="founder">
-        <div>
-          <img src="assets/uploads/founder.jpg" alt="Founder">
-        </div>
-        <div>
-          <h2 style="font-family: 'Playfair Display', serif; font-size: 2.8rem; margin-bottom: 24px;">Meet the Founder</h2>
-          <p style="font-size: 1.2rem; line-height: 1.8;">"I grew up watching my grandmother prepare skincare rituals using ingredients from our family’s desert garden. ADNC is my way of sharing that ancient wisdom with the world — refined for the modern woman who deserves to glow like royalty."</p>
-          <p style="margin-top: 24px; font-style: italic; color: #666;">— Her Royal Highness Princess Aisha Al Maktoum</p>
+    <section class="about-section">
+      <div class="container">
+        <h2 class="section-title">Meet Our <em>Founder</em></h2>
+        <div class="founder-section">
+          <div class="founder-img-wrap">
+            <img src="https://destinationiman.com/articleiman/iman-black-turtleneck-studio-portrait-hero-1200.jpg" alt="Aisha Al-Naimi, Founder & CEO of ADNC Luxury Skincare – elegant sophisticated portrait">
+          </div>
+          <div>
+            <p class="founder-quote">"Beauty is not just skin deep—it's a ritual of self-love, inspired by the timeless allure of the desert and the precision of science."</p>
+            <p class="founder-name">Aisha Al-Naimi</p>
+            <p class="founder-role">Founder & CEO, ADNC Skincare</p>
+            <p class="about-text" style="margin-top:24px;">With over 15 years in dermatology and a passion for Middle Eastern heritage, Aisha created ADNC to bridge tradition and innovation, offering skincare that transforms lives.</p>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- CTA -->
-    <section class="cta-section container" data-aos="fade-up">
-      <h2 style="font-family: 'Playfair Display', serif; font-size: 3rem; margin-bottom: 16px;">Join the Royal Circle</h2>
-      <p style="font-size: 1.25rem; max-width: 620px; margin: 0 auto 32px;">Become part of an exclusive community that celebrates timeless beauty and desert heritage.</p>
-      <a href="login.html" class="btn" style="background: #c6a769; color: white; padding: 18px 48px; font-size: 1.2rem;">Join Now</a>
+    <section class="cta-section">
+      <h2 class="cta-title">Join the <em>ADNC</em> Journey</h2>
+      <p class="cta-desc">Experience the fusion of luxury and science. Discover our collections and unlock your skin's radiant potential today.</p>
+      <a href="shop.html" class="btn-cta">Shop Now</a>
     </section>
+
   </main>
 
-  <!-- Exact same footer -->
+  <!-- Footer -->
   <footer class="site-footer">
     <div class="container">
       <div class="footer-grid">
-        <div class="footer-brand">
-          <h3>ADNC</h3>
-          <p>Premium Middle Eastern-Inspired Luxury Skincare</p>
-          <div class="social-icons">
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-youtube"></i></a>
+        <div>
+          <span class="footer-logo">ADNC</span>
+          <p class="footer-tagline">Premium Middle Eastern-inspired luxury skincare. Science-backed formulas crafted with the finest ingredients from around the world.</p>
+          <div class="social-row">
+            <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-btn"><i class="fab fa-youtube"></i></a>
+            <a href="#" class="social-btn"><i class="fab fa-pinterest-p"></i></a>
           </div>
         </div>
-        <div>
-          <h4>Shop</h4>
-          <ul>
-            <li><a href="shop.html">Night Creams</a></li>
-            <li><a href="shop.html">Serums</a></li>
-            <li><a href="shop.html">Cleansers</a></li>
-            <li><a href="shop.html">Eye Care</a></li>
-            <li><a href="shop.html">Sunscreen</a></li>
+
+        <div class="footer-col">
+          <h5>Shop</h5>
+          <ul class="footer-links">
+            <li><a href="#">Night Creams</a></li>
+            <li><a href="#">Serums</a></li>
+            <li><a href="#">Cleansers</a></li>
+            <li><a href="#">Eye Care</a></li>
+            <li><a href="#">Sunscreen</a></li>
+            <li><a href="#">Gift Sets</a></li>
           </ul>
         </div>
-        <div>
-          <h4>Support</h4>
-          <ul>
+
+        <div class="footer-col">
+          <h5>Support</h5>
+          <ul class="footer-links">
             <li><a href="#">Track Order</a></li>
             <li><a href="#">Shipping & Returns</a></li>
             <li><a href="#">FAQs</a></li>
             <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
           </ul>
         </div>
-        <div>
-          <h4>Newsletter</h4>
-          <p>Stay updated with exclusive offers & new launches</p>
+
+        <div class="footer-col">
+          <h5>Newsletter</h5>
+          <p style="font-size:0.88rem;color:rgba(255,255,255,0.55);line-height:1.7;margin-bottom:4px;">Stay updated with exclusive offers, new launches and skincare secrets from our experts.</p>
+          <div class="newsletter-form">
+            <input type="email" class="newsletter-input" placeholder="Your email address">
+            <button class="newsletter-btn">Subscribe</button>
+          </div>
         </div>
       </div>
+
       <div class="footer-bottom">
         <p>© 2025 ADNC Skincare. All Rights Reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms</a>
+          <a href="#">Sitemap</a>
+        </div>
       </div>
     </div>
   </footer>
 
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <!-- Toast (kept for consistency) -->
+  <div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i>
+    <span id="toastMsg">Message here!</span>
+  </div>
+
   <script>
-    AOS.init({ duration: 1000, once: true });
-
-    // Mobile Menu
-    document.querySelector('.hamburger').addEventListener('click', () => {
-      document.getElementById('mobileMenu').classList.toggle('active');
-    });
-    document.querySelector('.close-menu').addEventListener('click', () => {
-      document.getElementById('mobileMenu').classList.remove('active');
-    });
-
-    // Navbar scroll
+    // ── Scroll header ──
     window.addEventListener('scroll', () => {
-      document.querySelector('.site-header').classList.toggle('scrolled', window.scrollY > 50);
+      document.getElementById('header').classList.toggle('scrolled', window.scrollY > 60);
     });
+
+    // ── Mobile menu ──
+    const hamburger = document.getElementById('hamburgerBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const overlay = document.getElementById('overlay');
+    const closeMenu = document.getElementById('closeMenu');
+
+    function openMenu() {
+      mobileMenu.classList.add('open');
+      overlay.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMenuFn() {
+      mobileMenu.classList.remove('open');
+      overlay.classList.remove('show');
+      document.body.style.overflow = '';
+    }
+    hamburger.addEventListener('click', openMenu);
+    closeMenu.addEventListener('click', closeMenuFn);
+    overlay.addEventListener('click', closeMenuFn);
+
+    // ── Toast function (kept for potential use) ──
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMsg').textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3200);
+    }
   </script>
 </body>
 </html>

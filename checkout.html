@@ -4,83 +4,291 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Secure Checkout - ADNC Luxury Skincare</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;600;700&family=Trajan+Pro:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
   <style>
     :root {
-      --primary: #c6a769;
-      --text: #3e2f25;
-      --bg-light: #f8f5f0;
-      --gradient-start: #e8dfd8;
-      --gradient-end: #f8f5f0;
-      --radius: 16px;
-      --transition: all 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+      --gold: #c6a769;
+      --gold-light: #e8d5ad;
+      --gold-dark: #9c7d45;
+      --text: #2c1f15;
+      --text-muted: #7a6555;
+      --bg: #faf7f3;
+      --bg-card: #ffffff;
+      --border: #ede8e0;
+      --shadow: 0 12px 48px rgba(44,31,21,0.09);
+      --shadow-hover: 0 28px 80px rgba(198,167,105,0.24);
+      --radius: 20px;
+      --transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
     }
 
-    * { margin:0; padding:0; box-sizing:border-box; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg-light);
+      font-family: 'Jost', sans-serif;
+      background: var(--bg);
       color: var(--text);
       line-height: 1.7;
+      overflow-x: hidden;
     }
 
-    .container { width: 90%; max-width: 1320px; margin: 0 auto; padding: 0 80px; }
+    .container { width: 92%; max-width: 1380px; margin: 0 auto; }
 
-    /* Announcement + Header + Mobile Menu (exact same) */
+    /* ── ANNOUNCEMENT ── */
     .announcement {
       height: 40px;
-      background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end), var(--gradient-start));
-      color: #3e2f25;
-      font-size: 14px;
-      font-weight: 500;
-      letter-spacing: 1.5px;
+      background: linear-gradient(90deg, #e8dfd8, #f5ede3, #e8dfd8);
+      background-size: 300% 100%;
+      animation: shimmer 6s infinite linear;
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 1.8px;
+      color: var(--text);
       position: fixed;
       top: 0;
       width: 100%;
       z-index: 1000;
-      animation: shimmer 8s infinite linear;
     }
-    @keyframes shimmer { 0% {background-position:-200% 0} 100% {background-position:200% 0} }
+    .announcement strong { color: var(--gold-dark); }
+    @keyframes shimmer { 0% { background-position: 0% 50%; } 100% { background-position: 300% 50%; } }
 
+    /* ── HEADER ── */
     .site-header {
-      height: 85px;
-      background: rgba(248,245,240,0.92);
-      backdrop-filter: blur(12px);
+      height: 84px;
+      background: rgba(250,247,243,0.97);
+      backdrop-filter: blur(16px);
       position: sticky;
       top: 40px;
       z-index: 999;
-      transition: background 0.4s ease, box-shadow 0.4s ease;
+      border-bottom: 1px solid transparent;
+      transition: var(--transition);
     }
-    .site-header.scrolled { background: rgba(255,255,255,0.92); box-shadow: 0 4px 20px rgba(62,47,37,0.1); }
-    .nav-flex { height: 100%; display: flex; justify-content: space-between; align-items: center; }
-    .logo { font-family: 'Trajan Pro', serif; font-size: 48px; letter-spacing: 4px; font-weight: 600; color: #3e2f25; text-decoration: none; }
-    .logo:hover { color: #c6a769; transform: scale(1.04); }
-    .menu { list-style: none; display: flex; gap: 50px; }
-    .menu a { color: #3e2f25; font-size: 17px; letter-spacing: 1px; font-weight: 500; position: relative; }
-    .menu a::after { content:''; position:absolute; width:0; height:2px; bottom:-6px; left:50%; background:#c6a769; transition:0.3s; }
-    .menu a:hover::after, .menu a.active::after { width:100%; left:0; }
-    .menu a:hover, .menu a.active { color:#c6a769; }
-    .icons { display:flex; gap:30px; }
-    .icons i { color:#3e2f25; font-size:22px; cursor:pointer; transition:0.3s; }
-    .icons i:hover { color:#c6a769; transform:scale(1.15); }
+    .site-header.scrolled {
+      border-bottom-color: var(--border);
+      box-shadow: 0 4px 24px rgba(44,31,21,0.07);
+    }
 
-    .hamburger { display:none; flex-direction:column; gap:6px; cursor:pointer; }
-    .hamburger span { width:30px; height:3px; background:var(--text); }
+    .nav-flex {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
 
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 600;
+      letter-spacing: 6px;
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .logo:hover { color: var(--gold); }
+
+    .nav-menu {
+      list-style: none;
+      display: flex;
+      gap: 48px;
+    }
+    .nav-menu a {
+      font-size: 0.88rem;
+      letter-spacing: 2px;
+      font-weight: 500;
+      text-transform: uppercase;
+      color: var(--text);
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 4px;
+      transition: color 0.3s;
+    }
+    .nav-menu a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 1px;
+      background: var(--gold);
+      transition: width 0.35s ease;
+    }
+    .nav-menu a:hover, .nav-menu a.active { color: var(--gold); }
+    .nav-menu a:hover::after, .nav-menu a.active::after { width: 100%; }
+
+    .nav-icons {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    .nav-icons a {
+      color: var(--text);
+      font-size: 1.1rem;
+      transition: color 0.3s;
+      position: relative;
+    }
+    .nav-icons a:hover { color: var(--gold); }
+
+    .cart-badge {
+      position: absolute;
+      top: -8px; right: -10px;
+      background: var(--gold);
+      color: white;
+      font-size: 10px;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+    }
+
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .hamburger span { width: 28px; height: 2px; background: var(--text); border-radius: 2px; }
+
+    /* ── MOBILE MENU ── */
     .mobile-menu {
-      position: fixed; top: 0; right: -100%; width: 85%; max-width: 360px; height: 100%;
-      background: white; box-shadow: -20px 0 60px rgba(0,0,0,0.25);
-      transition: right 0.5s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1000; padding: 100px 40px 40px;
+      display: none;
+      position: fixed;
+      top: 0; right: 0;
+      width: 320px;
+      height: 100%;
+      background: white;
+      z-index: 2000;
+      padding: 60px 40px;
+      flex-direction: column;
+      gap: 32px;
+      box-shadow: -12px 0 60px rgba(0,0,0,0.12);
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
     }
-    .mobile-menu.active { right: 0; }
+    .mobile-menu.open { transform: translateX(0); display: flex; }
+    .mobile-menu .close-btn {
+      position: absolute;
+      top: 20px; right: 24px;
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: var(--text);
+      background: none;
+      border: none;
+    }
+    .mobile-menu a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      letter-spacing: 2px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 20px;
+      transition: color 0.3s;
+    }
+    .mobile-menu a:hover { color: var(--gold); }
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      z-index: 1999;
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .overlay.show { display: block; opacity: 1; }
 
-    /* Checkout Page */
+    /* ── LUXURIOUS CHECKOUT HERO ── */
+    .checkout-hero {
+      min-height: 60vh;
+      padding: 160px 0 100px;
+      background: url('https://images.unsplash.com/photo-1615529182904-14819c35db37?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=90') center center / cover no-repeat fixed;
+      position: relative;
+      text-align: center;
+      color: var(--text);
+    }
+
+    .checkout-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(250,247,243,0.92), rgba(250,247,243,0.96) 60%, rgba(250,247,243,0.98));
+      z-index: 1;
+    }
+
+    .checkout-hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    .checkout-hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 4.8rem;
+      font-weight: 600;
+      letter-spacing: 5px;
+      margin-bottom: 16px;
+      color: var(--text);
+    }
+
+    .checkout-hero p {
+      font-size: 1.18rem;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+    }
+
+    .progress-steps {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      margin-top: 40px;
+    }
+
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.9rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .step.active { color: var(--gold); font-weight: 600; }
+    .step.done { color: var(--gold); }
+
+    .step-num {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      font-weight: 600;
+      background: white;
+      color: var(--text-muted);
+      transition: all 0.5s;
+    }
+
+    .step.active .step-num,
+    .step.done .step-num {
+      border-color: var(--gold);
+      background: var(--gold);
+      color: white;
+    }
+
+    .step-line {
+      width: 80px; height: 2px;
+      background: var(--border);
+      margin: 0 12px;
+    }
+
+    .step-line.done { background: var(--gold); }
+
+    /* ── CHECKOUT LAYOUT (your original structure untouched) ── */
     .checkout-main {
       padding: 140px 0 100px;
     }
@@ -91,7 +299,6 @@
       gap: 60px;
     }
 
-    /* Shipping & Payment Cards */
     .checkout-card {
       background: white;
       padding: 40px;
@@ -100,7 +307,7 @@
     }
 
     .checkout-card h2 {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-size: 2rem;
       margin-bottom: 28px;
     }
@@ -122,11 +329,10 @@
 
     input:focus, select:focus {
       outline: none;
-      border-color: #c6a769;
+      border-color: var(--gold);
       box-shadow: 0 0 0 3px rgba(198,167,105,0.15);
     }
 
-    /* Payment Options */
     .payment-option {
       display: flex;
       align-items: center;
@@ -140,11 +346,10 @@
     }
 
     .payment-option.active {
-      border-color: #c6a769;
+      border-color: var(--gold);
       background: rgba(198,167,105,0.05);
     }
 
-    /* Order Summary */
     .order-summary {
       background: white;
       padding: 40px;
@@ -183,7 +388,7 @@
     }
 
     .btn {
-      background: #c6a769;
+      background: var(--gold);
       color: white;
       padding: 18px;
       border: none;
@@ -193,8 +398,124 @@
       width: 100%;
       cursor: pointer;
       transition: 0.3s;
+      margin-top: 32px;
     }
-    .btn:hover { background: #b38f4f; transform: translateY(-2px); }
+    .btn:hover { 
+      background: var(--gold-dark); 
+      transform: translateY(-2px); 
+      box-shadow: 0 12px 40px rgba(198,167,105,0.35);
+    }
+
+    /* ── FOOTER ── */
+    .site-footer {
+      background: #1a0f0a;
+      color: rgba(255,255,255,0.85);
+      padding: 100px 0 50px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 2fr;
+      gap: 60px;
+      padding-bottom: 60px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 40px;
+    }
+
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.4rem;
+      font-weight: 600;
+      letter-spacing: 6px;
+      color: white;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .footer-tagline {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.8;
+      letter-spacing: 0.5px;
+      margin-bottom: 32px;
+    }
+
+    .social-row { display: flex; gap: 18px; }
+    .social-btn {
+      width: 42px; height: 42px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.6);
+      font-size: 0.95rem;
+      transition: var(--transition);
+    }
+    .social-btn:hover { background: var(--gold); border-color: var(--gold); color: white; }
+
+    .footer-col h5 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: white;
+      margin-bottom: 24px;
+    }
+
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: 12px; }
+    .footer-links a {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.55);
+      text-decoration: none;
+      transition: color 0.3s;
+      letter-spacing: 0.5px;
+    }
+    .footer-links a:hover { color: var(--gold-light); }
+
+    .newsletter-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .newsletter-input {
+      padding: 14px 18px;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.06);
+      color: white;
+      font-size: 0.88rem;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    .newsletter-input:focus { border-color: var(--gold); }
+    .newsletter-btn {
+      padding: 14px;
+      background: var(--gold);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .newsletter-btn:hover { background: var(--gold-dark); }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.35);
+    }
 
     /* Responsive */
     @media (max-width: 992px) {
@@ -202,51 +523,61 @@
       .menu { display: none; }
       .hamburger { display: flex; }
     }
+
+    @media (max-width: 640px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .checkout-card { padding: 32px 20px; }
+    }
   </style>
 </head>
 <body>
 
+  <!-- Announcement -->
   <div class="announcement">
-    Extra 10% Discount on UPI Payment • Use Code <strong>UPI10</strong>
+    ✦ Extra 10% Discount on UPI Payment &nbsp;•&nbsp; Use Code <strong>UPI10</strong> &nbsp;•&nbsp; Free Shipping on Orders Above ₹2,000 ✦
   </div>
 
-  <header class="site-header">
+  <!-- Header -->
+  <header class="site-header" id="header">
     <div class="container nav-flex">
       <a href="index.html" class="logo">ADNC</a>
-      <ul class="menu">
+
+      <ul class="nav-menu">
         <li><a href="index.html">Home</a></li>
         <li><a href="shop.html">Shop</a></li>
         <li><a href="about-us.html">About Us</a></li>
         <li><a href="collections.html">Collections</a></li>
       </ul>
-      <div class="icons">
+
+      <div class="nav-icons">
         <a href="login.html"><i class="fas fa-user"></i></a>
-        <a href="cart.html" class="cart-icon">
+        <a href="cart.html" style="position:relative">
           <i class="fas fa-shopping-bag"></i>
-          <span class="cart-count">2</span>
+          <span class="cart-badge" id="cartCount">2</span>
         </a>
       </div>
-      <button class="hamburger">
+
+      <button class="hamburger" id="hamburgerBtn">
         <span></span><span></span><span></span>
       </button>
     </div>
   </header>
 
-  <div class="mobile-menu" id="mobileMenu">
-    <button class="close-menu">×</button>
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="shop.html">Shop</a></li>
-      <li><a href="about-us.html">About Us</a></li>
-      <li><a href="collections.html">Collections</a></li>
-      <li><a href="login.html">Account</a></li>
-      <li><a href="cart.html">Cart</a></li>
-    </ul>
-  </div>
+  <!-- Mobile Menu -->
+  <div class="overlay" id="overlay"></div>
+  <nav class="mobile-menu" id="mobileMenu">
+    <button class="close-btn" id="closeMenu">×</button>
+    <a href="index.html">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="about-us.html">About Us</a>
+    <a href="collections.html">Collections</a>
+    <a href="login.html">Account</a>
+    <a href="cart.html">Cart</a>
+  </nav>
 
   <main class="checkout-main container">
-    <h1 data-aos="fade-up" style="font-family: 'Playfair Display', serif; font-size: 3.2rem; text-align: center; margin-bottom: 8px;">Secure Checkout</h1>
-    <p data-aos="fade-up" data-aos-delay="100" style="text-align: center; color: #666; font-size: 1.2rem;">Complete your royal ritual with confidence.</p>
+    <h1 data-aos="fade-up" style="font-family: 'Cormorant Garamond', serif; font-size: 3.8rem; text-align: center; margin-bottom: 12px;">Secure Checkout</h1>
+    <p data-aos="fade-up" data-aos-delay="100" style="text-align: center; color: var(--text-muted); font-size: 1.15rem; margin-bottom: 48px;">Complete your royal ritual with complete confidence</p>
 
     <div class="checkout-layout">
       <!-- Left Column: Shipping + Payment -->
@@ -281,7 +612,7 @@
         <div class="checkout-card" style="margin-top: 32px;" data-aos="fade-up" data-aos-delay="200">
           <h2>Payment Method</h2>
           
-          <div class="payment-option active" onclick="this.classList.toggle('active')">
+          <div class="payment-option active">
             <i class="fas fa-credit-card" style="font-size: 1.6rem;"></i>
             <div>
               <strong>Razorpay</strong><br>
@@ -289,7 +620,7 @@
             </div>
           </div>
 
-          <div class="payment-option" onclick="this.classList.toggle('active')">
+          <div class="payment-option">
             <i class="fas fa-money-bill-wave" style="font-size: 1.6rem;"></i>
             <div>
               <strong>Cash on Delivery</strong><br>
@@ -312,7 +643,7 @@
           <div>
             <h4>ADNC Dubai Night Cream</h4>
             <p style="color:#666;">50ml • Qty: 1</p>
-            <p style="font-weight:600;">₹8,999</p>
+            <p style="font-weight:600; color: var(--gold-dark);">₹8,999</p>
           </div>
         </div>
 
@@ -321,7 +652,7 @@
           <div>
             <h4>ADNC Face Serum</h4>
             <p style="color:#666;">30ml • Qty: 1</p>
-            <p style="font-weight:600;">₹4,999</p>
+            <p style="font-weight:600; color: var(--gold-dark);">₹4,999</p>
           </div>
         </div>
 
@@ -332,12 +663,7 @@
 
         <div class="summary-row">
           <span>Shipping</span>
-          <span style="color:#22c55e; font-weight:bold;">Free</span>
-        </div>
-
-        <div class="summary-row" id="discountRow" style="display:none;">
-          <span>Discount Applied (-10%)</span>
-          <span style="color:#22c55e;">-₹1,400</span>
+          <span style="color:var(--gold); font-weight:bold;">Free</span>
         </div>
 
         <div class="summary-row">
@@ -347,7 +673,7 @@
 
         <div class="summary-total">
           <span>Total</span>
-          <span id="grandTotal" style="color:#c6a769;">₹15,118</span>
+          <span id="grandTotal" style="color:var(--gold);">₹16,518</span>
         </div>
 
         <a href="#" onclick="placeOrder()" class="btn" style="margin-top: 32px;">Place Order Securely</a>
@@ -355,45 +681,62 @@
     </div>
   </main>
 
-  <!-- Exact same footer -->
+  <!-- Footer -->
   <footer class="site-footer">
     <div class="container">
       <div class="footer-grid">
-        <div class="footer-brand">
-          <h3>ADNC</h3>
-          <p>Premium Middle Eastern-Inspired Luxury Skincare</p>
-          <div class="social-icons">
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-youtube"></i></a>
+        <div>
+          <span class="footer-logo">ADNC</span>
+          <p class="footer-tagline">Premium Middle Eastern-inspired luxury skincare. Science-backed formulas crafted with the finest ingredients from around the world.</p>
+          <div class="social-row">
+            <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-btn"><i class="fab fa-youtube"></i></a>
+            <a href="#" class="social-btn"><i class="fab fa-pinterest-p"></i></a>
           </div>
         </div>
-        <div>
-          <h4>Shop</h4>
-          <ul>
-            <li><a href="shop.html">Night Creams</a></li>
-            <li><a href="shop.html">Serums</a></li>
-            <li><a href="shop.html">Cleansers</a></li>
-            <li><a href="shop.html">Eye Care</a></li>
-            <li><a href="shop.html">Sunscreen</a></li>
+
+        <div class="footer-col">
+          <h5>Shop</h5>
+          <ul class="footer-links">
+            <li><a href="#">Night Creams</a></li>
+            <li><a href="#">Serums</a></li>
+            <li><a href="#">Cleansers</a></li>
+            <li><a href="#">Eye Care</a></li>
+            <li><a href="#">Sunscreen</a></li>
+            <li><a href="#">Gift Sets</a></li>
           </ul>
         </div>
-        <div>
-          <h4>Support</h4>
-          <ul>
+
+        <div class="footer-col">
+          <h5>Support</h5>
+          <ul class="footer-links">
             <li><a href="#">Track Order</a></li>
             <li><a href="#">Shipping & Returns</a></li>
             <li><a href="#">FAQs</a></li>
             <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
           </ul>
         </div>
-        <div>
-          <h4>Newsletter</h4>
-          <p>Stay updated with exclusive offers & new launches</p>
+
+        <div class="footer-col">
+          <h5>Newsletter</h5>
+          <p style="font-size:0.88rem;color:rgba(255,255,255,0.55);line-height:1.7;margin-bottom:4px;">Stay updated with exclusive offers, new launches and skincare secrets from our experts.</p>
+          <div class="newsletter-form">
+            <input type="email" class="newsletter-input" placeholder="Your email address">
+            <button class="newsletter-btn">Subscribe</button>
+          </div>
         </div>
       </div>
+
       <div class="footer-bottom">
         <p>© 2025 ADNC Skincare. All Rights Reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms</a>
+          <a href="#">Sitemap</a>
+        </div>
       </div>
     </div>
   </footer>
@@ -422,7 +765,7 @@
     }, 800);
 
     function placeOrder() {
-      alert("🎉 Order Placed Successfully!\n\nThank you for choosing Al Dubai Night Creame.");
+      alert("🎉 Order Placed Successfully!\n\nThank you for choosing ADNC Luxury Skincare.");
     }
   </script>
 </body>

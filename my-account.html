@@ -4,465 +4,979 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>My Account - ADNC Luxury Skincare</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;600;700&family=Trajan+Pro:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
   <style>
     :root {
-      --primary: #c6a769;
-      --text: #3e2f25;
-      --bg-light: #f8f5f0;
-      --gradient-start: #e8dfd8;
-      --gradient-end: #f8f5f0;
-      --radius: 16px;
-      --transition: all 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+      --gold: #c6a769;
+      --gold-light: #e8d5ad;
+      --gold-dark: #9c7d45;
+      --text: #2c1f15;
+      --text-muted: #7a6555;
+      --bg: #faf7f3;
+      --bg-card: #ffffff;
+      --border: #ede8e0;
+      --shadow: 0 8px 40px rgba(44,31,21,0.08);
+      --shadow-hover: 0 24px 64px rgba(198,167,105,0.22);
+      --radius: 20px;
+      --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    * { margin:0; padding:0; box-sizing:border-box; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
     body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg-light);
+      font-family: 'Jost', sans-serif;
+      background: var(--bg);
       color: var(--text);
       line-height: 1.7;
+      overflow-x: hidden;
     }
 
-    .container { width: 90%; max-width: 1320px; margin: 0 auto; padding: 0 80px; }
-
-    /* Announcement + Header + Mobile Menu (exact same) */
+    /* ── ANNOUNCEMENT ── */
     .announcement {
       height: 40px;
-      background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end), var(--gradient-start));
-      color: #3e2f25;
-      font-size: 14px;
-      font-weight: 500;
-      letter-spacing: 1.5px;
+      background: linear-gradient(90deg, #e8dfd8, #f5ede3, #e8dfd8);
+      background-size: 300% 100%;
+      animation: shimmer 6s infinite linear;
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 1.8px;
+      color: var(--text);
       position: fixed;
       top: 0;
       width: 100%;
       z-index: 1000;
-      animation: shimmer 8s infinite linear;
     }
-    @keyframes shimmer { 0% {background-position:-200% 0} 100% {background-position:200% 0} }
+    .announcement strong { color: var(--gold-dark); }
+    @keyframes shimmer { 0% { background-position: 0% 50%; } 100% { background-position: 300% 50%; } }
 
+    /* ── HEADER ── */
     .site-header {
-      height: 85px;
-      background: rgba(248,245,240,0.92);
-      backdrop-filter: blur(12px);
+      height: 84px;
+      background: rgba(250,247,243,0.96);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       position: sticky;
       top: 40px;
       z-index: 999;
-      transition: background 0.4s ease, box-shadow 0.4s ease;
+      border-bottom: 1px solid transparent;
+      transition: var(--transition);
     }
-    .site-header.scrolled { background: rgba(255,255,255,0.92); box-shadow: 0 4px 20px rgba(62,47,37,0.1); }
-    .nav-flex { height: 100%; display: flex; justify-content: space-between; align-items: center; }
-    .logo { font-family: 'Trajan Pro', serif; font-size: 48px; letter-spacing: 4px; font-weight: 600; color: #3e2f25; text-decoration: none; }
-    .logo:hover { color: #c6a769; transform: scale(1.04); }
-    .menu { list-style: none; display: flex; gap: 50px; }
-    .menu a { color: #3e2f25; font-size: 17px; letter-spacing: 1px; font-weight: 500; position: relative; }
-    .menu a::after { content:''; position:absolute; width:0; height:2px; bottom:-6px; left:50%; background:#c6a769; transition:0.3s; }
-    .menu a:hover::after, .menu a.active::after { width:100%; left:0; }
-    .menu a:hover, .menu a.active { color:#c6a769; }
-    .icons { display:flex; gap:30px; }
-    .icons i { color:#3e2f25; font-size:22px; cursor:pointer; transition:0.3s; }
-    .icons i:hover { color:#c6a769; transform:scale(1.15); }
-
-    .hamburger { display:none; flex-direction:column; gap:6px; cursor:pointer; }
-    .hamburger span { width:30px; height:3px; background:var(--text); }
-
-    .mobile-menu {
-      position: fixed; top: 0; right: -100%; width: 85%; max-width: 360px; height: 100%;
-      background: white; box-shadow: -20px 0 60px rgba(0,0,0,0.25);
-      transition: right 0.5s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1000; padding: 100px 40px 40px;
-    }
-    .mobile-menu.active { right: 0; }
-
-    /* My Account Page – Improved Detailing, Spacing, Structure */
-    .account-main {
-      padding: 140px 0 100px;
+    .site-header.scrolled {
+      border-bottom-color: var(--border);
+      box-shadow: 0 4px 24px rgba(44,31,21,0.07);
     }
 
-    .dashboard-header {
+    .container { width: 92%; max-width: 1380px; margin: 0 auto; }
+
+    .nav-flex {
+      height: 100%;
       display: flex;
       align-items: center;
-      gap: 28px;
-      margin-bottom: 48px;
+      justify-content: space-between;
     }
-    .avatar {
-      width: 90px;
-      height: 90px;
+
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 600;
+      letter-spacing: 6px;
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .logo:hover { color: var(--gold); }
+
+    .nav-menu { list-style: none; display: flex; gap: 48px; }
+    .nav-menu a {
+      font-size: 0.88rem;
+      letter-spacing: 2px;
+      font-weight: 500;
+      text-transform: uppercase;
+      color: var(--text);
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 4px;
+      transition: color 0.3s;
+    }
+    .nav-menu a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 1px;
+      background: var(--gold);
+      transition: width 0.35s ease;
+    }
+    .nav-menu a:hover, .nav-menu a.active { color: var(--gold); }
+    .nav-menu a:hover::after, .nav-menu a.active::after { width: 100%; }
+
+    .nav-icons { display: flex; align-items: center; gap: 28px; }
+    .nav-icons a { color: var(--text); font-size: 1.1rem; transition: color 0.3s; position: relative; }
+    .nav-icons a:hover { color: var(--gold); }
+
+    .cart-badge {
+      position: absolute;
+      top: -8px; right: -10px;
+      background: var(--gold);
+      color: white;
+      font-size: 10px;
+      width: 16px; height: 16px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #c6a769, #b38f4f);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 3rem;
+      font-weight: 600;
+    }
+
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .hamburger span { width: 28px; height: 2px; background: var(--text); border-radius: 2px; transition: 0.3s; }
+
+    /* ── MOBILE MENU ── */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0; right: 0;
+      width: 320px;
+      height: 100%;
+      background: white;
+      z-index: 2000;
+      padding: 60px 40px;
+      flex-direction: column;
+      gap: 32px;
+      box-shadow: -12px 0 60px rgba(0,0,0,0.12);
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+    }
+    .mobile-menu.open { transform: translateX(0); display: flex; }
+    .mobile-menu .close-btn {
+      position: absolute;
+      top: 20px; right: 24px;
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: var(--text);
+      background: none;
+      border: none;
+    }
+    .mobile-menu a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      letter-spacing: 2px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 20px;
+      transition: color 0.3s;
+    }
+    .mobile-menu a:hover { color: var(--gold); }
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      z-index: 1999;
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .overlay.show { display: block; opacity: 1; }
+
+    /* ── MY ACCOUNT SECTION ── */
+    .account-section {
+      padding: 140px 0 120px;
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--bg), #f5f0e8);
+      position: relative;
+    }
+
+    .account-section::before {
+      content: 'MY ACCOUNT';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14rem;
+      font-weight: 300;
+      color: rgba(198,167,105,0.03);
+      white-space: nowrap;
+      pointer-events: none;
+      letter-spacing: 18px;
+      z-index: 0;
+    }
+
+    .account-container {
+      position: relative;
+      z-index: 1;
+    }
+
+    .dashboard-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem;
       color: white;
-      font-weight: bold;
-      box-shadow: 0 8px 30px rgba(198,167,105,0.25);
+      font-weight: 600;
+      margin: 0 auto 20px;
+      box-shadow: 0 12px 40px rgba(198,167,105,0.3);
+      border: 4px solid white;
+    }
+
+    .dashboard-header h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.2rem;
+      font-weight: 400;
+      margin-bottom: 8px;
+    }
+
+    .dashboard-header p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
     }
 
     .account-layout {
       display: grid;
-      grid-template-columns: 320px 1fr;
-      gap: 80px;
+      grid-template-columns: 300px 1fr;
+      gap: 60px;
     }
 
     .sidebar {
-      background: white;
-      padding: 48px 32px;
-      border-radius: 24px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.08);
       position: sticky;
-      top: 140px;
+      top: 160px;
       height: fit-content;
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 40px 32px;
+      box-shadow: var(--shadow);
     }
 
     .sidebar ul {
       list-style: none;
     }
+
     .sidebar li {
+      padding: 16px 0;
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition);
       display: flex;
       align-items: center;
-      gap: 16px;
-      padding: 20px 0;
-      border-bottom: 1px solid #eee;
-      font-size: 1.15rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: 0.3s;
+      gap: 12px;
+      border-bottom: 1px solid var(--border);
     }
-    .sidebar li i { font-size: 1.3rem; color: #888; transition: 0.3s; }
-    .sidebar li:hover, .sidebar li.active {
-      color: #c6a769;
-      padding-left: 12px;
+
+    .sidebar li:last-child { border-bottom: none; }
+
+    .sidebar li:hover,
+    .sidebar li.active {
+      color: var(--gold);
+      padding-left: 8px;
     }
-    .sidebar li:hover i, .sidebar li.active i { color: #c6a769; }
 
-    .tab-content { display: none; padding: 40px; background: white; border-radius: 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.08); }
-    .tab-content.active { display: block; }
+    .sidebar li i {
+      font-size: 1.2rem;
+      color: inherit;
+    }
 
-    /* Orders */
+    .tab-content {
+      display: none;
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 48px;
+      box-shadow: var(--shadow);
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.4rem;
+      font-weight: 400;
+      margin-bottom: 32px;
+      color: var(--text);
+    }
+
+    /* Orders Table */
     .orders-table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 24px;
     }
-    .orders-table th, .orders-table td {
-      padding: 20px;
-      text-align: left;
-      border-bottom: 1px solid #eee;
-    }
-    .orders-table th { font-weight: 600; color: #3e2f25; background: #f8f5f0; }
-    .status { padding: 8px 20px; border-radius: 50px; font-size: 0.95rem; font-weight: 500; }
-    .status.shipped { background: rgba(34,197,94,0.15); color: #22c55e; }
-    .track-btn { background: #c6a769; color: white; padding: 8px 28px; border-radius: 12px; text-decoration: none; font-weight: 600; transition: 0.3s; }
-    .track-btn:hover { background: #b38f4f; }
 
-    /* Profile */
-    .profile-form { max-width: 720px; }
-    .profile-form .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-    .profile-form input, .profile-form select { width: 100%; padding: 16px 20px; border: 1px solid #ddd; border-radius: 12px; font-size: 1rem; margin-bottom: 24px; transition: 0.3s; }
-    .profile-form input:focus, .profile-form select:focus { border-color: #c6a769; box-shadow: 0 0 0 4px rgba(198,167,105,0.15); }
+    .orders-table th,
+    .orders-table td {
+      padding: 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .orders-table th {
+      background: rgba(198,167,105,0.08);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+    }
+
+    .status {
+      padding: 6px 16px;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .status.shipped { background: rgba(34,197,94,0.15); color: #22c55e; }
+    .status.delivered { background: rgba(59,130,246,0.15); color: #3b82f6; }
+
+    .track-btn {
+      background: var(--text);
+      color: white;
+      padding: 8px 20px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: var(--transition);
+    }
+
+    .track-btn:hover {
+      background: var(--gold);
+    }
+
+    /* Profile Form */
+    .profile-form {
+      max-width: 800px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+
+    .form-group {
+      position: relative;
+      margin-bottom: 28px;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 16px 20px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 4px rgba(198,167,105,0.12);
+      outline: none;
+    }
+
+    .form-group label {
+      position: absolute;
+      top: 50%;
+      left: 20px;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+      transition: var(--transition);
+      font-size: 0.95rem;
+    }
+
+    .form-group input:focus + label,
+    .form-group input:not(:placeholder-shown) + label,
+    .form-group select:focus + label,
+    .form-group select:not(:placeholder-shown) + label {
+      top: -10px;
+      left: 14px;
+      font-size: 0.82rem;
+      background: var(--bg-card);
+      padding: 0 8px;
+      color: var(--gold);
+    }
 
     /* Wishlist */
     .wishlist-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 40px;
-      margin-top: 32px;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 32px;
     }
 
-    /* Addresses */
-    .address-card { background: #f8f5f0; padding: 24px; border-radius: 16px; margin-bottom: 24px; box-shadow: 0 8px 30px rgba(0,0,0,0.06); }
-    .address-card h4 { margin-bottom: 12px; }
+    .wishlist-item {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
 
-    /* Royal Circle */
-    .royal-card { background: linear-gradient(135deg, #c6a769 0%, #b38f4f 100%); color: white; padding: 32px; border-radius: 24px; text-align: center; box-shadow: 0 20px 60px rgba(198,167,105,0.3); }
-    .royal-card h3 { font-family: 'Playfair Display', serif; font-size: 2.2rem; margin-bottom: 12px; }
-    .royal-perks { margin-top: 24px; text-align: left; max-width: 480px; margin: 0 auto; }
+    .wishlist-item:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-hover);
+    }
 
-    /* Footer (exact same) */
-    .site-footer {
-      background: #2a1a19;
+    .wishlist-img {
+      height: 280px;
+      overflow: hidden;
+    }
+
+    .wishlist-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+
+    .wishlist-item:hover .wishlist-img img {
+      transform: scale(1.06);
+    }
+
+    .wishlist-info {
+      padding: 20px;
+      text-align: center;
+    }
+
+    .wishlist-info h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      margin-bottom: 8px;
+    }
+
+    .wishlist-info .price {
+      color: var(--gold-dark);
+      font-weight: 600;
+      font-size: 1.2rem;
+    }
+
+    /* Addresses & Royal Circle */
+    .address-grid,
+    .royal-info {
+      display: grid;
+      gap: 24px;
+    }
+
+    .address-card,
+    .royal-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 32px;
+      box-shadow: var(--shadow);
+    }
+
+    .royal-card {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
       color: white;
-      padding: 100px 0 60px;
+      text-align: center;
     }
+
+    .royal-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      margin-bottom: 16px;
+    }
+
+    .royal-perks ul {
+      list-style: none;
+      padding: 0;
+      text-align: left;
+      max-width: 420px;
+      margin: 24px auto 0;
+    }
+
+    .royal-perks li {
+      margin-bottom: 12px;
+      font-size: 1.05rem;
+    }
+
+    .royal-perks i {
+      color: white;
+      margin-right: 12px;
+    }
+
+    /* Buttons */
+    .btn {
+      padding: 14px 32px;
+      background: var(--text);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn:hover {
+      background: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--gold);
+      color: var(--gold);
+    }
+
+    /* ── FOOTER ── */
+    .site-footer {
+      background: #1a0f0a;
+      color: rgba(255,255,255,0.85);
+      padding: 100px 0 50px;
+    }
+
     .footer-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns: 2fr 1fr 1fr 2fr;
       gap: 60px;
+      padding-bottom: 60px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 40px;
     }
-    .footer-grid h3 { font-family: 'Playfair Display', serif; font-size: 2.4rem; margin-bottom: 20px; }
-    .footer-grid h4 { font-size: 1.4rem; margin-bottom: 20px; }
-    .footer-grid a { color: #ddd; text-decoration: none; line-height: 2.4; display: block; }
-    .footer-grid a:hover { color: white; }
-    .social-icons { display: flex; gap: 24px; font-size: 1.8rem; }
-    .footer-bottom {
-      margin-top: 80px;
-      padding-top: 40px;
-      border-top: 1px solid rgba(255,255,255,0.12);
-      text-align: center;
+
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.4rem;
+      font-weight: 600;
+      letter-spacing: 6px;
+      color: white;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .footer-tagline {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.8;
+      letter-spacing: 0.5px;
+      margin-bottom: 32px;
+    }
+
+    .social-row { display: flex; gap: 18px; }
+    .social-btn {
+      width: 42px; height: 42px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.6);
       font-size: 0.95rem;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .social-btn:hover { background: var(--gold); border-color: var(--gold); color: white; }
+
+    .footer-col h5 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: white;
+      margin-bottom: 24px;
+    }
+
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: 12px; }
+    .footer-links a {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.55);
+      text-decoration: none;
+      transition: color 0.3s;
+      letter-spacing: 0.5px;
+    }
+    .footer-links a:hover { color: var(--gold-light); }
+
+    .newsletter-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .newsletter-input {
+      padding: 14px 18px;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.06);
+      color: white;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.88rem;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    .newsletter-input::placeholder { color: rgba(255,255,255,0.35); }
+    .newsletter-input:focus { border-color: var(--gold); }
+    .newsletter-btn {
+      padding: 14px;
+      background: var(--gold);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .newsletter-btn:hover { background: var(--gold-dark); }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-bottom p { font-size: 0.82rem; color: rgba(255,255,255,0.35); letter-spacing: 1px; }
+    .footer-bottom-links { display: flex; gap: 24px; }
+    .footer-bottom-links a { font-size: 0.8rem; color: rgba(255,255,255,0.35); text-decoration: none; transition: color 0.3s; }
+    .footer-bottom-links a:hover { color: var(--gold-light); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1100px) {
+      .footer-grid { grid-template-columns: 1fr 1fr; }
     }
 
     @media (max-width: 992px) {
-      .menu { display: none; }
+      .account-layout { grid-template-columns: 1fr; }
+      .sidebar { position: static; }
+      .nav-menu { display: none; }
       .hamburger { display: flex; }
-      .account-layout { grid-template-columns: 1fr; gap: 48px; }
-      .sidebar { position: static; padding: 40px 24px; }
-      .orders-table th, .orders-table td { padding: 16px; font-size: 0.95rem; }
+      .form-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      .account-section { padding: 120px 0 80px; }
+      .dashboard-header h1 { font-size: 2.4rem; }
+      .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+      .footer-bottom { flex-direction: column; text-align: center; }
     }
   </style>
 </head>
 <body>
 
+  <!-- Announcement -->
   <div class="announcement">
-    Extra 10% Discount on UPI Payment • Use Code <strong>UPI10</strong>
+    ✦ Extra 10% Discount on UPI Payment &nbsp;•&nbsp; Use Code <strong>&nbsp;UPI10&nbsp;</strong> &nbsp;•&nbsp; Free Shipping on Orders Above ₹2,000 ✦
   </div>
 
-  <header class="site-header">
+  <!-- Header -->
+  <header class="site-header" id="header">
     <div class="container nav-flex">
       <a href="index.html" class="logo">ADNC</a>
-      <ul class="menu">
+
+      <ul class="nav-menu">
         <li><a href="index.html">Home</a></li>
         <li><a href="shop.html">Shop</a></li>
         <li><a href="about-us.html">About Us</a></li>
         <li><a href="collections.html">Collections</a></li>
       </ul>
-      <div class="icons">
-        <a href="login.html"><i class="fas fa-user"></i></a>
-        <a href="cart.html" class="cart-icon">
+
+      <div class="nav-icons">
+        <a href="my-account.html"><i class="fas fa-user"></i></a>
+        <a href="cart.html" style="position:relative">
           <i class="fas fa-shopping-bag"></i>
-          <span class="cart-count">0</span>
+          <span class="cart-badge" id="cartCount">0</span>
         </a>
       </div>
-      <button class="hamburger">
+
+      <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
     </div>
   </header>
 
-  <div class="mobile-menu" id="mobileMenu">
-    <button class="close-menu">×</button>
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="shop.html">Shop</a></li>
-      <li><a href="about-us.html">About Us</a></li>
-      <li><a href="collections.html">Collections</a></li>
-      <li><a href="login.html">Account</a></li>
-      <li><a href="cart.html">Cart</a></li>
-    </ul>
-  </div>
+  <!-- Mobile Menu -->
+  <div class="overlay" id="overlay"></div>
+  <nav class="mobile-menu" id="mobileMenu">
+    <button class="close-btn" id="closeMenu">×</button>
+    <a href="index.html">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="about-us.html">About Us</a>
+    <a href="collections.html">Collections</a>
+    <a href="my-account.html">My Account</a>
+    <a href="cart.html">Cart</a>
+  </nav>
 
-  <main class="account-main container">
-    <div class="dashboard-header" data-aos="fade-down">
-      <div class="avatar">S</div>
-      <h1>Welcome back, Sujay</h1>
-    </div>
-
-    <div class="account-layout">
-      <!-- Sidebar -->
-      <aside class="sidebar" data-aos="fade-right">
-        <ul onclick="switchTab(event)">
-          <li class="active" data-tab="orders"><i class="fas fa-box-open"></i> Orders</li>
-          <li data-tab="profile"><i class="fas fa-user-edit"></i> Profile</li>
-          <li data-tab="wishlist"><i class="fas fa-heart"></i> Wishlist</li>
-          <li data-tab="addresses"><i class="fas fa-map-marker-alt"></i> Addresses</li>
-          <li data-tab="royal-circle"><i class="fas fa-crown"></i> Royal Circle</li>
-        </ul>
-      </aside>
-
-      <!-- Content Tabs -->
-      <div>
-        <!-- Orders Tab -->
-        <div class="tab-content active" id="orders" data-aos="fade-up">
-          <h2>Your Orders</h2>
-          <p style="color: #666; margin-bottom: 32px;">Track your recent orders and view details.</p>
-          <table class="orders-table">
-            <thead>
-              <tr>
-                <th>Order #</th>
-                <th>Date</th>
-                <th>Items</th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>#ADNC-784392</td>
-                <td>Feb 17, 2026</td>
-                <td>Night Cream, Face Serum</td>
-                <td class="status shipped">Shipped</td>
-                <td><a href="#" class="track-btn">Track</a></td>
-              </tr>
-              <tr>
-                <td>#ADNC-123456</td>
-                <td>Jan 10, 2026</td>
-                <td>Eye Care Cream</td>
-                <td class="status shipped">Delivered</td>
-                <td><a href="#" class="track-btn">View</a></td>
-              </tr>
-            </tbody>
-          </table>
+  <!-- My Account Section -->
+  <section class="account-section">
+    <div class="container account-container">
+      <div class="dashboard-header">
+        <div class="avatar">S</div>
+        <div>
+          <h1>Welcome back, Sujay</h1>
+          <p style="color: var(--text-muted); font-size: 1.1rem;">Member since January 2025 • Gold Tier</p>
         </div>
+      </div>
 
-        <!-- Profile Tab -->
-        <div class="tab-content" id="profile" data-aos="fade-up">
-          <h2>Edit Profile</h2>
-          <p style="color: #666; margin-bottom: 32px;">Update your personal details for a tailored experience.</p>
-          <form class="profile-form">
-            <div class="form-grid">
-              <div class="form-group">
-                <input type="text" value="Sujay" required>
-                <label>Full Name</label>
+      <div class="account-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+          <ul>
+            <li class="active" data-tab="orders"><i class="fas fa-box-open"></i> Orders</li>
+            <li data-tab="profile"><i class="fas fa-user-edit"></i> Profile</li>
+            <li data-tab="wishlist"><i class="fas fa-heart"></i> Wishlist</li>
+            <li data-tab="addresses"><i class="fas fa-map-marker-alt"></i> Addresses</li>
+            <li data-tab="royal-circle"><i class="fas fa-crown"></i> Royal Circle</li>
+          </ul>
+        </aside>
+
+        <!-- Tab Contents -->
+        <div class="tab-contents">
+          <!-- Orders -->
+          <div class="tab-content active" id="orders">
+            <h2 class="section-title">Your Orders</h2>
+            <p style="color: var(--text-muted); margin-bottom: 32px;">Track, view, or manage your recent purchases.</p>
+
+            <table class="orders-table">
+              <thead>
+                <tr>
+                  <th>Order #</th>
+                  <th>Date</th>
+                  <th>Items</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>#ADNC-784392</td>
+                  <td>Feb 17, 2026</td>
+                  <td>Dubai Night Cream, Radiance Serum</td>
+                  <td><span class="status shipped">Shipped</span></td>
+                  <td><a href="#" class="track-btn">Track Order</a></td>
+                </tr>
+                <tr>
+                  <td>#ADNC-123456</td>
+                  <td>Jan 10, 2026</td>
+                  <td>Eye Revival Complex</td>
+                  <td><span class="status delivered">Delivered</span></td>
+                  <td><a href="#" class="track-btn">View Details</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Profile -->
+          <div class="tab-content" id="profile">
+            <h2 class="section-title">Edit Profile</h2>
+            <p style="color: var(--text-muted); margin-bottom: 40px;">Update your details for a personalized experience.</p>
+
+            <form class="profile-form">
+              <div class="form-grid">
+                <div class="form-group">
+                  <input type="text" value="Sujay" placeholder=" " required>
+                  <label>Full Name</label>
+                </div>
+                <div class="form-group">
+                  <input type="email" value="sujay@example.com" placeholder=" " required>
+                  <label>Email Address</label>
+                </div>
               </div>
               <div class="form-group">
-                <input type="email" value="sujay@example.com" required>
-                <label>Email</label>
+                <input type="tel" value="+91 98765 43210" placeholder=" " required>
+                <label>Phone Number</label>
+              </div>
+              <div class="form-group">
+                <select required>
+                  <option>Dry</option>
+                  <option selected>Combination</option>
+                  <option>Oily</option>
+                  <option>Sensitive</option>
+                </select>
+                <label>Skin Type</label>
+              </div>
+              <button type="submit" class="btn">Save Changes</button>
+            </form>
+          </div>
+
+          <!-- Wishlist -->
+          <div class="tab-content" id="wishlist">
+            <h2 class="section-title">Your Wishlist</h2>
+            <p style="color: var(--text-muted); margin-bottom: 40px;">Items you've saved for later — your future radiance awaits.</p>
+
+            <div class="wishlist-grid">
+              <div class="wishlist-item">
+                <div class="wishlist-img">
+                  <img src="assets/uploads/products/product-nightcream.jpg" alt="ADNC Dubai Night Cream">
+                </div>
+                <div class="wishlist-info">
+                  <h4>ADNC Dubai Night Cream</h4>
+                  <p class="price">₹8,999</p>
+                  <button class="btn" style="margin-top:16px; font-size:0.85rem; padding:12px;">Add to Cart</button>
+                </div>
+              </div>
+              <!-- Repeat for more items -->
+            </div>
+          </div>
+
+          <!-- Addresses -->
+          <div class="tab-content" id="addresses">
+            <h2 class="section-title">Saved Addresses</h2>
+            <p style="color: var(--text-muted); margin-bottom: 32px;">Manage your delivery locations for seamless shopping.</p>
+
+            <div class="address-grid">
+              <div class="address-card">
+                <h4>Home</h4>
+                <p>123 Royal Lane, Bandra West,<br>Mumbai, Maharashtra 400050, India</p>
+                <div style="margin-top:20px;">
+                  <a href="#" class="btn" style="padding:10px 20px; font-size:0.85rem;">Edit</a>
+                  <a href="#" style="margin-left:12px; color:var(--gold);">Set as Default</a>
+                </div>
               </div>
             </div>
-            <div class="form-group">
-              <input type="tel" value="+91 9876543210" required>
-              <label>Phone</label>
-            </div>
-            <div class="form-group">
-              <select required>
-                <option selected>Dry</option>
-                <option>Oily</option>
-                <option>Combination</option>
-              </select>
-              <label>Skin Type</label>
-            </div>
-            <button type="submit" class="btn">Save Changes</button>
-          </form>
-        </div>
 
-        <!-- Wishlist Tab -->
-        <div class="tab-content" id="wishlist" data-aos="fade-up">
-          <h2>Your Wishlist</h2>
-          <p style="color: #666; margin-bottom: 32px;">Your saved favorites for royal radiance.</p>
-          <div class="wishlist-grid">
-            <div class="product-card">
-              <img src="assets/uploads/products/product-nightcream.jpg" class="product-image">
-              <div class="product-info">
-                <h3>ADNC Dubai Night Cream</h3>
-                <p class="product-price">₹8,999</p>
+            <button class="btn" style="margin-top:40px; width:100%;">+ Add New Address</button>
+          </div>
+
+          <!-- Royal Circle -->
+          <div class="tab-content" id="royal-circle">
+            <h2 class="section-title">Royal Circle Membership</h2>
+            <p style="color: var(--text-muted); margin-bottom: 40px;">Exclusive benefits for our most valued members.</p>
+
+            <div class="royal-card">
+              <h3>Gold Tier</h3>
+              <p style="font-size:1.4rem; margin:16px 0;">1,250 Points Earned</p>
+              <p>Next Tier: Platinum (2,500 points)</p>
+
+              <div class="royal-perks">
+                <h4 style="margin:32px 0 20px; font-size:1.3rem;">Your Exclusive Perks</h4>
+                <ul>
+                  <li><i class="fas fa-check-circle"></i> Early access to new launches</li>
+                  <li><i class="fas fa-check-circle"></i> Complimentary samples on orders</li>
+                  <li><i class="fas fa-check-circle"></i> 10% birthday discount</li>
+                  <li><i class="fas fa-check-circle"></i> Priority customer support</li>
+                </ul>
               </div>
             </div>
-            <!-- Add more -->
-          </div>
-        </div>
-
-        <!-- Addresses Tab -->
-        <div class="tab-content" id="addresses" data-aos="fade-up">
-          <h2>Saved Addresses</h2>
-          <p style="color: #666; margin-bottom: 32px;">Manage your delivery locations.</p>
-          <div class="address-card">
-            <h4>Home</h4>
-            <p>123 Royal Lane, Mumbai, Maharashtra 400001, IN</p>
-            <a href="#" class="track-btn" style="margin-top: 16px; display: inline-block;">Edit</a>
-          </div>
-          <button class="btn btn-outline" style="width: 100%; margin-top: 32px;">Add New Address</button>
-        </div>
-
-        <!-- Royal Circle Tab -->
-        <div class="tab-content" id="royal-circle" data-aos="fade-up">
-          <h2>Royal Circle Membership</h2>
-          <p style="color: #666; margin-bottom: 32px;">Exclusive perks for our loyal royals.</p>
-          <div class="royal-card">
-            <h3>Gold Level</h3>
-            <p style="margin: 12px 0;">Points Earned: 1,250</p>
-            <p>Next Level: Platinum (2,500 points)</p>
-          </div>
-          <div class="royal-perks">
-            <h4>Perks:</h4>
-            <ul style="list-style: none; padding-left: 0; margin-top: 20px;">
-              <li><i class="fas fa-check-circle" style="color: #c6a769; margin-right: 12px;"></i> Early access to launches</li>
-              <li><i class="fas fa-check-circle" style="color: #c6a769; margin-right: 12px;"></i> Free samples with every order</li>
-              <li><i class="fas fa-check-circle" style="color: #c6a769; margin-right: 12px;"></i> 10% off on birthdays</li>
-            </ul>
           </div>
         </div>
       </div>
     </div>
-  </main>
+  </section>
 
-  <!-- Exact same footer -->
+  <!-- Footer -->
   <footer class="site-footer">
     <div class="container">
       <div class="footer-grid">
-        <div class="footer-brand">
-          <h3>ADNC</h3>
-          <p>Premium Middle Eastern-Inspired Luxury Skincare</p>
-          <div class="social-icons">
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-youtube"></i></a>
+        <div>
+          <span class="footer-logo">ADNC</span>
+          <p class="footer-tagline">Premium Middle Eastern-inspired luxury skincare. Science-backed formulas crafted with the finest ingredients from around the world.</p>
+          <div class="social-row">
+            <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-btn"><i class="fab fa-youtube"></i></a>
+            <a href="#" class="social-btn"><i class="fab fa-pinterest-p"></i></a>
           </div>
         </div>
-        <div>
-          <h4>Shop</h4>
-          <ul>
-            <li><a href="shop.html">Night Creams</a></li>
-            <li><a href="shop.html">Serums</a></li>
-            <li><a href="shop.html">Cleansers</a></li>
-            <li><a href="shop.html">Eye Care</a></li>
-            <li><a href="shop.html">Sunscreen</a></li>
+
+        <div class="footer-col">
+          <h5>Shop</h5>
+          <ul class="footer-links">
+            <li><a href="#">Night Creams</a></li>
+            <li><a href="#">Serums</a></li>
+            <li><a href="#">Cleansers</a></li>
+            <li><a href="#">Eye Care</a></li>
+            <li><a href="#">Sunscreen</a></li>
+            <li><a href="#">Gift Sets</a></li>
           </ul>
         </div>
-        <div>
-          <h4>Support</h4>
-          <ul>
+
+        <div class="footer-col">
+          <h5>Support</h5>
+          <ul class="footer-links">
             <li><a href="#">Track Order</a></li>
             <li><a href="#">Shipping & Returns</a></li>
             <li><a href="#">FAQs</a></li>
             <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
           </ul>
         </div>
-        <div>
-          <h4>Newsletter</h4>
-          <p>Stay updated with exclusive offers & new launches</p>
+
+        <div class="footer-col">
+          <h5>Newsletter</h5>
+          <p style="font-size:0.88rem;color:rgba(255,255,255,0.55);line-height:1.7;margin-bottom:4px;">Stay updated with exclusive offers, new launches and skincare secrets from our experts.</p>
+          <div class="newsletter-form">
+            <input type="email" class="newsletter-input" placeholder="Your email address">
+            <button class="newsletter-btn">Subscribe</button>
+          </div>
         </div>
       </div>
+
       <div class="footer-bottom">
         <p>© 2025 ADNC Skincare. All Rights Reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms</a>
+          <a href="#">Sitemap</a>
+        </div>
       </div>
     </div>
   </footer>
 
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
-    AOS.init({ duration: 1000, once: true });
-
-    // Mobile Menu
-    document.querySelector('.hamburger').addEventListener('click', () => {
-      document.getElementById('mobileMenu').classList.toggle('active');
-    });
-    document.querySelector('.close-menu').addEventListener('click', () => {
-      document.getElementById('mobileMenu').classList.remove('active');
-    });
-
-    // Navbar scroll
+    // Header scroll
     window.addEventListener('scroll', () => {
-      document.querySelector('.site-header').classList.toggle('scrolled', window.scrollY > 50);
+      document.getElementById('header').classList.toggle('scrolled', window.scrollY > 60);
     });
+
+    // Mobile menu
+    const hamburger = document.getElementById('hamburgerBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const overlay = document.getElementById('overlay');
+    const closeMenu = document.getElementById('closeMenu');
+
+    function openMenu() {
+      mobileMenu.classList.add('open');
+      overlay.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMenuFn() {
+      mobileMenu.classList.remove('open');
+      overlay.classList.remove('show');
+      document.body.style.overflow = '';
+    }
+    hamburger.addEventListener('click', openMenu);
+    closeMenu.addEventListener('click', closeMenuFn);
+    overlay.addEventListener('click', closeMenuFn);
 
     // Tab switching
-    function switchTab(e) {
-      if (e.target.tagName === 'LI') {
+    document.querySelectorAll('.sidebar li').forEach(item => {
+      item.addEventListener('click', function() {
         document.querySelectorAll('.sidebar li').forEach(li => li.classList.remove('active'));
-        e.target.classList.add('active');
-        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-        document.getElementById(e.target.dataset.tab).classList.add('active');
-      }
-    }
+        this.classList.add('active');
 
-    // Profile form submit demo
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        document.getElementById(this.getAttribute('data-tab')).classList.add('active');
+      });
+    });
+
+    // Profile form demo submit
     document.querySelector('.profile-form')?.addEventListener('submit', e => {
       e.preventDefault();
       alert('Profile updated successfully!');
