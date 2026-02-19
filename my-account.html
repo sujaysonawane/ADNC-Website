@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Account - ADNC Luxury Skincare</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;600;700&family=Trajan+Pro:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #c6a769;
+      --text: #3e2f25;
+      --bg-light: #f8f5f0;
+      --gradient-start: #e8dfd8;
+      --gradient-end: #f8f5f0;
+      --radius: 16px;
+      --transition: all 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-light);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    .container { width: 90%; max-width: 1320px; margin: 0 auto; padding: 0 80px; }
+
+    /* Announcement + Header + Mobile Menu (exact same) */
+    .announcement {
+      height: 40px;
+      background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end), var(--gradient-start));
+      color: #3e2f25;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      animation: shimmer 8s infinite linear;
+    }
+    @keyframes shimmer { 0% {background-position:-200% 0} 100% {background-position:200% 0} }
+
+    .site-header {
+      height: 85px;
+      background: rgba(248,245,240,0.92);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 40px;
+      z-index: 999;
+      transition: background 0.4s ease, box-shadow 0.4s ease;
+    }
+    .site-header.scrolled { background: rgba(255,255,255,0.92); box-shadow: 0 4px 20px rgba(62,47,37,0.1); }
+    .nav-flex { height: 100%; display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-family: 'Trajan Pro', serif; font-size: 48px; letter-spacing: 4px; font-weight: 600; color: #3e2f25; text-decoration: none; }
+    .logo:hover { color: #c6a769; transform: scale(1.04); }
+    .menu { list-style: none; display: flex; gap: 50px; }
+    .menu a { color: #3e2f25; font-size: 17px; letter-spacing: 1px; font-weight: 500; position: relative; }
+    .menu a::after { content:''; position:absolute; width:0; height:2px; bottom:-6px; left:50%; background:#c6a769; transition:0.3s; }
+    .menu a:hover::after, .menu a.active::after { width:100%; left:0; }
+    .menu a:hover, .menu a.active { color:#c6a769; }
+    .icons { display:flex; gap:30px; }
+    .icons i { color:#3e2f25; font-size:22px; cursor:pointer; transition:0.3s; }
+    .icons i:hover { color:#c6a769; transform:scale(1.15); }
+
+    .hamburger { display:none; flex-direction:column; gap:6px; cursor:pointer; }
+    .hamburger span { width:30px; height:3px; background:var(--text); }
+
+    .mobile-menu {
+      position: fixed; top: 0; right: -100%; width: 85%; max-width: 360px; height: 100%;
+      background: white; box-shadow: -20px 0 60px rgba(0,0,0,0.25);
+      transition: right 0.5s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1000; padding: 100px 40px 40px;
+    }
+    .mobile-menu.active { right: 0; }
+
+    /* My Account Page – Improved Detailing, Spacing, Structure */
+    .account-main {
+      padding: 140px 0 100px;
+    }
+
+    .dashboard-header {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      margin-bottom: 48px;
+    }
+    .avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #c6a769, #b38f4f);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      color: white;
+      font-weight: bold;
+      box-shadow: 0 8px 30px rgba(198,167,105,0.25);
+    }
+
+    .account-layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 80px;
+    }
+
+    .sidebar {
+      background: white;
+      padding: 48px 32px;
+      border-radius: 24px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+      position: sticky;
+      top: 140px;
+      height: fit-content;
+    }
+
+    .sidebar ul {
+      list-style: none;
+    }
+    .sidebar li {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px 0;
+      border-bottom: 1px solid #eee;
+      font-size: 1.15rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .sidebar li i { font-size: 1.3rem; color: #888; transition: 0.3s; }
+    .sidebar li:hover, .sidebar li.active {
+      color: #c6a769;
+      padding-left: 12px;
+    }
+    .sidebar li:hover i, .sidebar li.active i { color: #c6a769; }
+
+    .tab-content { display: none; padding: 40px; background: white; border-radius: 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.08); }
+    .tab-content.active { display: block; }
+
+    /* Orders */
+    .orders-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 24px;
+    }
+    .orders-table th, .orders-table td {
+      padding: 20px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+    .orders-table th { font-weight: 600; color: #3e2f25; background: #f8f5f0; }
+    .status { padding: 8px 20px; border-radius: 50px; font-size: 0.95rem; font-weight: 500; }
+    .status.shipped { background: rgba(34,197,94,0.15); color: #22c55e; }
+    .track-btn { background: #c6a769; color: white; padding: 8px 28px; border-radius: 12px; text-decoration: none; font-weight: 600; transition: 0.3s; }
+    .track-btn:hover { background: #b38f4f; }
+
+    /* Profile */
+    .profile-form { max-width: 720px; }
+    .profile-form .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .profile-form input, .profile-form select { width: 100%; padding: 16px 20px; border: 1px solid #ddd; border-radius: 12px; font-size: 1rem; margin-bottom: 24px; transition: 0.3s; }
+    .profile-form input:focus, .profile-form select:focus { border-color: #c6a769; box-shadow: 0 0 0 4px rgba(198,167,105,0.15); }
+
+    /* Wishlist */
+    .wishlist-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 40px;
+      margin-top: 32px;
+    }
+
+    /* Addresses */
+    .address-card { background: #f8f5f0; padding: 24px; border-radius: 16px; margin-bottom: 24px; box-shadow: 0 8px 30px rgba(0,0,0,0.06); }
+    .address-card h4 { margin-bottom: 12px; }
+
+    /* Royal Circle */
+    .royal-card { background: linear-gradient(135deg, #c6a769 0%, #b38f4f 100%); color: white; padding: 32px; border-radius: 24px; text-align: center; box-shadow: 0 20px 60px rgba(198,167,105,0.3); }
+    .royal-card h3 { font-family: 'Playfair Display', serif; font-size: 2.2rem; margin-bottom: 12px; }
+    .royal-perks { margin-top: 24px; text-align: left; max-width: 480px; margin: 0 auto; }
+
+    /* Footer (exact same) */
+    .site-footer {
+      background: #2a1a19;
+      color: white;
+      padding: 100px 0 60px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 60px;
+    }
+    .footer-grid h3 { font-family: 'Playfair Display', serif; font-size: 2.4rem; margin-bottom: 20px; }
+    .footer-grid h4 { font-size: 1.4rem; margin-bottom: 20px; }
+    .footer-grid a { color: #ddd; text-decoration: none; line-height: 2.4; display: block; }
+    .footer-grid a:hover { color: white; }
+    .social-icons { display: flex; gap: 24px; font-size: 1.8rem; }
+    .footer-bottom {
+      margin-top: 80px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(255,255,255,0.12);
+      text-align: center;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 992px) {
+      .menu { display: none; }
+      .hamburger { display: flex; }
+      .account-layout { grid-template-columns: 1fr; gap: 48px; }
+      .sidebar { position: static; padding: 40px 24px; }
+      .orders-table th, .orders-table td { padding: 16px; font-size: 0.95rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="announcement">
+    Extra 10% Discount on UPI Payment • Use Code <strong>UPI10</strong>
+  </div>
+
+  <header class="site-header">
+    <div class="container nav-flex">
+      <a href="index.html" class="logo">ADNC</a>
+      <ul class="menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="about-us.html">About Us</a></li>
+        <li><a href="collections.html">Collections</a></li>
+      </ul>
+      <div class="icons">
+        <a href="login.html"><i class="fas fa-user"></i></a>
+        <a href="cart.html" class="cart-icon">
+          <i class="fas fa-shopping-bag"></i>
+          <span class="cart-count">0</span>
+        </a>
+      </div>
+      <button class="hamburger">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="close-menu">×</button>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="about-us.html">About Us</a></li>
+      <li><a href="collections.html">Collections</a></li>
+      <li><a href="login.html">Account</a></li>
+      <li><a href="cart.html">Cart</a></li>
+    </ul>
+  </div>
+
+  <main class="account-main container">
+    <div class="dashboard-header" data-aos="fade-down">
+      <div class="avatar">S</div>
+      <h1>Welcome back, Sujay</h1>
+    </div>
+
+    <div class="account-layout">
+      <!-- Sidebar -->
+      <aside class="sidebar" data-aos="fade-right">
+        <ul onclick="switchTab(event)">
+          <li class="active" data-tab="orders"><i class="fas fa-box-open"></i> Orders</li>
+          <li data-tab="profile"><i class="fas fa-user-edit"></i> Profile</li>
+          <li data-tab="wishlist"><i class="fas fa-heart"></i> Wishlist</li>
+          <li data-tab="addresses"><i class="fas fa-map-marker-alt"></i> Addresses</li>
+          <li data-tab="royal-circle"><i class="fas fa-crown"></i> Royal Circle</li>
+        </ul>
+      </aside>
+
+      <!-- Content Tabs -->
+      <div>
+        <!-- Orders Tab -->
+        <div class="tab-content active" id="orders" data-aos="fade-up">
+          <h2>Your Orders</h2>
+          <p style="color: #666; margin-bottom: 32px;">Track your recent orders and view details.</p>
+          <table class="orders-table">
+            <thead>
+              <tr>
+                <th>Order #</th>
+                <th>Date</th>
+                <th>Items</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>#ADNC-784392</td>
+                <td>Feb 17, 2026</td>
+                <td>Night Cream, Face Serum</td>
+                <td class="status shipped">Shipped</td>
+                <td><a href="#" class="track-btn">Track</a></td>
+              </tr>
+              <tr>
+                <td>#ADNC-123456</td>
+                <td>Jan 10, 2026</td>
+                <td>Eye Care Cream</td>
+                <td class="status shipped">Delivered</td>
+                <td><a href="#" class="track-btn">View</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Profile Tab -->
+        <div class="tab-content" id="profile" data-aos="fade-up">
+          <h2>Edit Profile</h2>
+          <p style="color: #666; margin-bottom: 32px;">Update your personal details for a tailored experience.</p>
+          <form class="profile-form">
+            <div class="form-grid">
+              <div class="form-group">
+                <input type="text" value="Sujay" required>
+                <label>Full Name</label>
+              </div>
+              <div class="form-group">
+                <input type="email" value="sujay@example.com" required>
+                <label>Email</label>
+              </div>
+            </div>
+            <div class="form-group">
+              <input type="tel" value="+91 9876543210" required>
+              <label>Phone</label>
+            </div>
+            <div class="form-group">
+              <select required>
+                <option selected>Dry</option>
+                <option>Oily</option>
+                <option>Combination</option>
+              </select>
+              <label>Skin Type</label>
+            </div>
+            <button type="submit" class="btn">Save Changes</button>
+          </form>
+        </div>
+
+        <!-- Wishlist Tab -->
+        <div class="tab-content" id="wishlist" data-aos="fade-up">
+          <h2>Your Wishlist</h2>
+          <p style="color: #666; margin-bottom: 32px;">Your saved favorites for royal radiance.</p>
+          <div class="wishlist-grid">
+            <div class="product-card">
+              <img src="assets/uploads/products/product-nightcream.jpg" class="product-image">
+              <div class="product-info">
+                <h3>ADNC Dubai Night Cream</h3>
+                <p class="product-price">₹8,999</p>
+              </div>
+            </div>
+            <!-- Add more -->
+          </div>
+        </div>
+
+        <!-- Addresses Tab -->
+        <div class="tab-content" id="addresses" data-aos="fade-up">
+          <h2>Saved Addresses</h2>
+          <p style="color: #666; margin-bottom: 32px;">Manage your delivery locations.</p>
+          <div class="address-card">
+            <h4>Home</h4>
+            <p>123 Royal Lane, Mumbai, Maharashtra 400001, IN</p>
+            <a href="#" class="track-btn" style="margin-top: 16px; display: inline-block;">Edit</a>
+          </div>
+          <button class="btn btn-outline" style="width: 100%; margin-top: 32px;">Add New Address</button>
+        </div>
+
+        <!-- Royal Circle Tab -->
+        <div class="tab-content" id="royal-circle" data-aos="fade-up">
+          <h2>Royal Circle Membership</h2>
+          <p style="color: #666; margin-bottom: 32px;">Exclusive perks for our loyal royals.</p>
+          <div class="royal-card">
+            <h3>Gold Level</h3>
+            <p style="margin: 12px 0;">Points Earned: 1,250</p>
+            <p>Next Level: Platinum (2,500 points)</p>
+          </div>
+          <div class="royal-perks">
+            <h4>Perks:</h4>
+            <ul style="list-style: none; padding-left: 0; margin-top: 20px;">
+              <li><i class="fas fa-check-circle" style="color: #c6a769; margin-right: 12px;"></i> Early access to launches</li>
+              <li><i class="fas fa-check-circle" style="color: #c6a769; margin-right: 12px;"></i> Free samples with every order</li>
+              <li><i class="fas fa-check-circle" style="color: #c6a769; margin-right: 12px;"></i> 10% off on birthdays</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Exact same footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>ADNC</h3>
+          <p>Premium Middle Eastern-Inspired Luxury Skincare</p>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4>Shop</h4>
+          <ul>
+            <li><a href="shop.html">Night Creams</a></li>
+            <li><a href="shop.html">Serums</a></li>
+            <li><a href="shop.html">Cleansers</a></li>
+            <li><a href="shop.html">Eye Care</a></li>
+            <li><a href="shop.html">Sunscreen</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">Track Order</a></li>
+            <li><a href="#">Shipping & Returns</a></li>
+            <li><a href="#">FAQs</a></li>
+            <li><a href="#">Contact Us</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Newsletter</h4>
+          <p>Stay updated with exclusive offers & new launches</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 ADNC Skincare. All Rights Reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 1000, once: true });
+
+    // Mobile Menu
+    document.querySelector('.hamburger').addEventListener('click', () => {
+      document.getElementById('mobileMenu').classList.toggle('active');
+    });
+    document.querySelector('.close-menu').addEventListener('click', () => {
+      document.getElementById('mobileMenu').classList.remove('active');
+    });
+
+    // Navbar scroll
+    window.addEventListener('scroll', () => {
+      document.querySelector('.site-header').classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // Tab switching
+    function switchTab(e) {
+      if (e.target.tagName === 'LI') {
+        document.querySelectorAll('.sidebar li').forEach(li => li.classList.remove('active'));
+        e.target.classList.add('active');
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        document.getElementById(e.target.dataset.tab).classList.add('active');
+      }
+    }
+
+    // Profile form submit demo
+    document.querySelector('.profile-form')?.addEventListener('submit', e => {
+      e.preventDefault();
+      alert('Profile updated successfully!');
+    });
+  </script>
+</body>
+</html>

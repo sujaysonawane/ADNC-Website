@@ -245,7 +245,7 @@ body {
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-  transition: all 0.4s;
+  transition: all 0.4s;s
 }
 
 .product-card:hover {
@@ -321,9 +321,9 @@ body {
 
 /* ================= DARK MODE ================= */
 body.dark {
-  --light: #1a1a1a;
+  --light: #faeeee;
   --dark: #f0f0f0;
-  background: #111;
+  background: #f3b154;
   color: #f0f0f0;
 }
 
@@ -333,7 +333,7 @@ body.dark .auth-container,
 body.dark .checkout-card,
 body.dark .sidebar,
 body.dark footer {
-  background: #1e1e1e;
+  background: #f3b154;
   color: #f0f0f0;
 }
 

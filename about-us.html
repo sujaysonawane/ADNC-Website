@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Us - ADNC Luxury Skincare</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;600;700&family=Trajan+Pro:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #c6a769;
+      --text: #3e2f25;
+      --bg-light: #f8f5f0;
+      --gradient-start: #e8dfd8;
+      --gradient-end: #f8f5f0;
+      --radius: 16px;
+      --transition: all 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-light);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    .container { width: 90%; max-width: 1320px; margin: 0 auto; padding: 0 80px; }
+
+    /* Announcement + Header + Mobile Menu (exact same) */
+    .announcement {
+      height: 40px;
+      background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end), var(--gradient-start));
+      color: #3e2f25;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      animation: shimmer 8s infinite linear;
+    }
+    @keyframes shimmer { 0% {background-position:-200% 0} 100% {background-position:200% 0} }
+
+    .site-header {
+      height: 85px;
+      background: rgba(248,245,240,0.92);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 40px;
+      z-index: 999;
+      transition: background 0.4s ease, box-shadow 0.4s ease;
+    }
+    .site-header.scrolled { background: rgba(255,255,255,0.92); box-shadow: 0 4px 20px rgba(62,47,37,0.1); }
+    .nav-flex { height: 100%; display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-family: 'Trajan Pro', serif; font-size: 48px; letter-spacing: 4px; font-weight: 600; color: #3e2f25; text-decoration: none; }
+    .logo:hover { color: #c6a769; transform: scale(1.04); }
+    .menu { list-style: none; display: flex; gap: 50px; }
+    .menu a { color: #3e2f25; font-size: 17px; letter-spacing: 1px; font-weight: 500; position: relative; }
+    .menu a::after { content:''; position:absolute; width:0; height:2px; bottom:-6px; left:50%; background:#c6a769; transition:0.3s; }
+    .menu a:hover::after, .menu a.active::after { width:100%; left:0; }
+    .menu a:hover, .menu a.active { color:#c6a769; }
+    .icons { display:flex; gap:30px; }
+    .icons i { color:#3e2f25; font-size:22px; cursor:pointer; transition:0.3s; }
+    .icons i:hover { color:#c6a769; transform:scale(1.15); }
+
+    .hamburger { display:none; flex-direction:column; gap:6px; cursor:pointer; }
+    .hamburger span { width:30px; height:3px; background:var(--text); }
+
+    .mobile-menu {
+      position: fixed; top: 0; right: -100%; width: 85%; max-width: 360px; height: 100%;
+      background: white; box-shadow: -20px 0 60px rgba(0,0,0,0.25);
+      transition: right 0.5s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1000; padding: 100px 40px 40px;
+    }
+    .mobile-menu.active { right: 0; }
+
+    /* About Page */
+    .about-hero {
+      height: 85vh;
+      background: url('assets/uploads/about-hero.jpg') center/cover no-repeat fixed;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+      position: relative;
+    }
+    .about-hero::before {
+      content: ""; position: absolute; inset: 0; background: rgba(0,0,0,0.5);
+    }
+    .about-hero-content {
+      position: relative; z-index: 2; max-width: 900px;
+    }
+    .about-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.5rem, 7vw, 5.5rem);
+      margin-bottom: 16px;
+    }
+
+    .about-section {
+      padding: 120px 0;
+    }
+
+    .story-text {
+      max-width: 820px;
+      margin: 0 auto;
+      font-size: 1.25rem;
+      line-height: 1.85;
+      color: #555;
+    }
+
+    .timeline {
+      max-width: 800px;
+      margin: 80px auto;
+    }
+    .timeline-item {
+      display: flex;
+      gap: 40px;
+      margin-bottom: 60px;
+      align-items: flex-start;
+    }
+    .timeline-dot {
+      width: 24px; height: 24px; background: #c6a769; border-radius: 50%;
+      flex-shrink: 0; margin-top: 8px;
+    }
+    .timeline-content h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      margin-bottom: 8px;
+    }
+
+    .ingredients-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 40px;
+      margin-top: 60px;
+    }
+    .ingredient-card {
+      background: white;
+      padding: 32px 24px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.06);
+    }
+    .ingredient-card i {
+      font-size: 3.5rem;
+      color: #c6a769;
+      margin-bottom: 20px;
+    }
+
+    .founder {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      margin-top: 80px;
+    }
+    .founder img {
+      width: 100%;
+      border-radius: 24px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+    }
+
+    .cta-section {
+      background: white;
+      padding: 80px 0;
+      text-align: center;
+    }
+
+    .btn {
+      background: #c6a769;
+      color: white;
+      padding: 18px 48px;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 1.2rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn:hover { background: #b38f4f; transform: translateY(-4px); }
+
+    /* Footer (exact same) */
+    .site-footer {
+      background: #2a1a19;
+      color: white;
+      padding: 100px 0 60px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 60px;
+    }
+    .footer-grid h3 { font-family: 'Playfair Display', serif; font-size: 2.4rem; margin-bottom: 20px; }
+    .footer-grid h4 { font-size: 1.4rem; margin-bottom: 20px; }
+    .footer-grid a { color: #ddd; text-decoration: none; line-height: 2.4; display: block; }
+    .footer-grid a:hover { color: white; }
+    .social-icons { display: flex; gap: 24px; font-size: 1.8rem; }
+    .footer-bottom {
+      margin-top: 80px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(255,255,255,0.12);
+      text-align: center;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 992px) {
+      .menu { display: none; }
+      .hamburger { display: flex; }
+      .founder { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="announcement">
+    Extra 10% Discount on UPI Payment • Use Code <strong>UPI10</strong>
+  </div>
+
+  <header class="site-header">
+    <div class="container nav-flex">
+      <a href="index.html" class="logo">ADNC</a>
+      <ul class="menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="about-us.html" class="active">About Us</a></li>
+        <li><a href="collections.html">Collections</a></li>
+      </ul>
+      <div class="icons">
+        <a href="login.html"><i class="fas fa-user"></i></a>
+        <a href="cart.html" class="cart-icon">
+          <i class="fas fa-shopping-bag"></i>
+          <span class="cart-count">0</span>
+        </a>
+      </div>
+      <button class="hamburger">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="close-menu">×</button>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="about-us.html">About Us</a></li>
+      <li><a href="collections.html">Collections</a></li>
+      <li><a href="login.html">Account</a></li>
+      <li><a href="cart.html">Cart</a></li>
+    </ul>
+  </div>
+
+  <main>
+    <!-- Hero -->
+    <section class="about-hero">
+      <div class="about-hero-content" data-aos="fade-up">
+        <h1>The Royal Ritual of Dubai</h1>
+        <p style="font-size: 1.4rem; max-width: 620px; margin: 0 auto;">Where ancient desert wisdom meets modern luxury skincare.</p>
+      </div>
+    </section>
+
+    <!-- Story -->
+    <section class="about-section container" data-aos="fade-up">
+      <div class="story-text">
+        <p>Born in the heart of the Arabian desert, ADNC was founded on the belief that true beauty comes from the earth’s most resilient gifts. For centuries, the royal courts of Dubai have used rare botanicals from the desert to preserve their skin’s youthful radiance. We honor that legacy by combining these time-tested ingredients with cutting-edge Swiss science.</p>
+        <p style="margin-top: 24px;">Every drop of ADNC is a celebration of heritage, purity, and the pursuit of timeless glow.</p>
+      </div>
+    </section>
+
+    <!-- Timeline -->
+    <section class="about-section container" style="background: white;" data-aos="fade-up">
+      <div class="timeline">
+        <div class="timeline-item" data-aos="fade-up" data-aos-delay="100">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h3>2018 • The Vision</h3>
+            <p>A Dubai royal descendant partners with Swiss dermatologists to revive forgotten desert rituals.</p>
+          </div>
+        </div>
+        <div class="timeline-item" data-aos="fade-up" data-aos-delay="200">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h3>2020 • The First Ritual</h3>
+            <p>ADNC Dubai Night Cream launches to critical acclaim in the Middle East.</p>
+          </div>
+        </div>
+        <div class="timeline-item" data-aos="fade-up" data-aos-delay="300">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h3>2023 • Global Awakening</h3>
+            <p>ADNC enters the international market, becoming the choice of discerning royalty and celebrities.</p>
+          </div>
+        </div>
+        <div class="timeline-item" data-aos="fade-up" data-aos-delay="400">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h3>2025 • The Royal Circle</h3>
+            <p>Our community of glow-seekers grows to over 12,000 members worldwide.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ingredients -->
+    <section class="about-section container" data-aos="fade-up">
+      <h2 style="text-align: center; font-family: 'Playfair Display', serif; font-size: 3rem; margin-bottom: 60px;">Treasures from the Desert</h2>
+      <div class="ingredients-grid">
+        <div class="ingredient-card" data-aos="fade-up">
+          <i class="fas fa-leaf"></i>
+          <h3>Date Palm</h3>
+          <p>Rich in antioxidants and vitamins for deep hydration and glow.</p>
+        </div>
+        <div class="ingredient-card" data-aos="fade-up" data-aos-delay="100">
+          <i class="fas fa-seedling"></i>
+          <h3>Sidr Honey</h3>
+          <p>Natural antibacterial and healing properties for clear, radiant skin.</p>
+        </div>
+        <div class="ingredient-card" data-aos="fade-up" data-aos-delay="200">
+          <i class="fas fa-sun"></i>
+          <h3>Desert Rose</h3>
+          <p>Anti-aging elixir that firms and brightens the complexion.</p>
+        </div>
+        <div class="ingredient-card" data-aos="fade-up" data-aos-delay="300">
+          <i class="fas fa-gem"></i>
+          <h3>24K Gold</h3>
+          <p>Luxury mineral that boosts collagen and gives a royal luminosity.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Founder -->
+    <section class="about-section container" data-aos="fade-up">
+      <div class="founder">
+        <div>
+          <img src="assets/uploads/founder.jpg" alt="Founder">
+        </div>
+        <div>
+          <h2 style="font-family: 'Playfair Display', serif; font-size: 2.8rem; margin-bottom: 24px;">Meet the Founder</h2>
+          <p style="font-size: 1.2rem; line-height: 1.8;">"I grew up watching my grandmother prepare skincare rituals using ingredients from our family’s desert garden. ADNC is my way of sharing that ancient wisdom with the world — refined for the modern woman who deserves to glow like royalty."</p>
+          <p style="margin-top: 24px; font-style: italic; color: #666;">— Her Royal Highness Princess Aisha Al Maktoum</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section container" data-aos="fade-up">
+      <h2 style="font-family: 'Playfair Display', serif; font-size: 3rem; margin-bottom: 16px;">Join the Royal Circle</h2>
+      <p style="font-size: 1.25rem; max-width: 620px; margin: 0 auto 32px;">Become part of an exclusive community that celebrates timeless beauty and desert heritage.</p>
+      <a href="login.html" class="btn" style="background: #c6a769; color: white; padding: 18px 48px; font-size: 1.2rem;">Join Now</a>
+    </section>
+  </main>
+
+  <!-- Exact same footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>ADNC</h3>
+          <p>Premium Middle Eastern-Inspired Luxury Skincare</p>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4>Shop</h4>
+          <ul>
+            <li><a href="shop.html">Night Creams</a></li>
+            <li><a href="shop.html">Serums</a></li>
+            <li><a href="shop.html">Cleansers</a></li>
+            <li><a href="shop.html">Eye Care</a></li>
+            <li><a href="shop.html">Sunscreen</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">Track Order</a></li>
+            <li><a href="#">Shipping & Returns</a></li>
+            <li><a href="#">FAQs</a></li>
+            <li><a href="#">Contact Us</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Newsletter</h4>
+          <p>Stay updated with exclusive offers & new launches</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 ADNC Skincare. All Rights Reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 1000, once: true });
+
+    // Mobile Menu
+    document.querySelector('.hamburger').addEventListener('click', () => {
+      document.getElementById('mobileMenu').classList.toggle('active');
+    });
+    document.querySelector('.close-menu').addEventListener('click', () => {
+      document.getElementById('mobileMenu').classList.remove('active');
+    });
+
+    // Navbar scroll
+    window.addEventListener('scroll', () => {
+      document.querySelector('.site-header').classList.toggle('scrolled', window.scrollY > 50);
+    });
+  </script>
+</body>
+</html>
